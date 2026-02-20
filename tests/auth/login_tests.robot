@@ -1,10 +1,14 @@
 *** Settings ***
-Documentation     Template for Auth tests
+Documentation     SG-7 - Verify login with valid credential
+Library           SeleniumLibrary
 Resource          ../../resources/keywords.robot
 Resource          ../../resources/locators.robot
-
+Suite Setup       Open MoRent Website
+Suite Teardown    Close Browser
 *** Test Cases ***
-Login Test Template
-    [Documentation]    Placeholder for login test
-    [Tags]    auth
-    Log    Implement login test here
+Verify Login With Valid Credentials
+    Click Login Button
+    Enter Email And Continue
+    Enter Password And Continue
+    Handle OTP If Present
+    Verify Successful Login
