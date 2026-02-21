@@ -6,4 +6,4 @@ Verify Login With Valid Credentials
     Open MoRent Website
     Go To Login Page
     Login With Valid Credentials
-    Verify Successful Login
+    
