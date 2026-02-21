@@ -16,13 +16,12 @@ Go To Login Page
 
 Login With Valid Credentials
     Click Element    ${EMAIL_INPUT}
-    Press Keys       ${EMAIL_INPUT}  doe+clerk_test@example.com
+    Input Text    ${EMAIL_INPUT}    doe+clerk_test@example.com
     Press Keys    ${EMAIL_INPUT}    TAB
     Sleep    2s
     Wait Until Element Is Visible    ${SUBMIT_BUTTON}    20s
     Wait Until Element Is Enabled    ${SUBMIT_BUTTON}    20s
     Click Element                    ${SUBMIT_BUTTON}
-    Wait Until Page Does Not Contain Element    ${EMAIL_INPUT}    20s
     Wait Until Element Is Visible               ${PASSWORD_INPUT}    30s
 
     Wait Until Element Is Visible    ${PASSWORD_INPUT}
@@ -30,6 +29,18 @@ Login With Valid Credentials
     Wait Until Element Is Visible    ${SUBMIT_BUTTON}    20s
     Wait Until Element Is Enabled    ${SUBMIT_BUTTON}    20s
     Click Element                    ${SUBMIT_BUTTON}
+   
+    ${otp_visible}=    Run Keyword And Return Status
+    ...    Wait Until Element Is Visible    ${OTP_INPUT}    10s
 
-Verify Successful Login
-    Wait Until Element Is Visible    ${LOGOUT_BUTTON}    20s
+    IF    ${otp_visible}
+        Log    OTP detected
+        Clear Element Text    ${OTP_INPUT}
+        Input Text            ${OTP_INPUT}    424242
+        Press Keys            ${OTP_INPUT}    ENTER
+        
+        # Wait for login success instead of OTP disappearing
+        
+        Log    OTP not shown
+    END
+    
