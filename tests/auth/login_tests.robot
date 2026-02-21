@@ -4,7 +4,10 @@ Resource          ../../resources/keywords.robot
 Resource          ../../resources/locators.robot
 
 *** Test Cases ***
-Login Test Template
-    [Documentation]    Placeholder for login test
+Verify User Can Login With Valid Credentials
+    [Documentation]    Validates that a registered user can successfully log in using valid credentials and access the application dashboard.
     [Tags]    auth
-    Log    Implement login test here
+    Open Browser To MoRent
+    Login With Valid Credentials
+    Verify Login Successful
+    Close Browser
