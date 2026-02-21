@@ -39,3 +39,21 @@ Handle OTP If Present
 Verify Login Successful
     Wait Until Element Is Visible    ${PROFILE_ICON}    10s
 
+Open Profile Dropdown
+    Verify Login Successful
+    Click Element    ${PROFILE_ICON}
+
+Click Manage Account
+    Click Element    ${MANAGE_ACCOUNT}
+
+Verify Manage Account Modal Is Open
+    Wait Until Element Is Visible    ${ACCOUNT_MODAL}    10s
+
+    # Validate modal content
+    Page Should Contain Element      ${PROFILE_DETAIL}
+    Page Should Contain Element      ${MANAGE_YOUR_ACCOUNT}
+
+    # Validate sidebar visibility
+    Page Should Contain Element      ${SIDEBAR_PROFILE_OPTION}
+    Page Should Contain Element      ${SIDEBAR_SECURITY_OPTION}
+
