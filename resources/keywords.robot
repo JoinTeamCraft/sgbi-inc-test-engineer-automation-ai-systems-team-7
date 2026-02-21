@@ -1,14 +1,18 @@
 *** Settings ***
 Documentation     Template for reusable keywords
 Library           SeleniumLibrary
+Library           ../config/env_config.py
 Resource          locators.robot
 
 *** Keywords ***
 Open MoRent Home Page
     [Documentation]    Opens the MoRent homepage and waits until main content is visible.
-    Open Browser    ${BASE_URL}    chrome
+    ${base_url}=    Get Base Url
+    ${browser}=    Get Browser
+    ${timeout}=    Get Default Timeout
+    Open Browser    ${base_url}    ${browser}
     Maximize Browser Window
-    Wait Until Element Is Visible    ${HOME_READY_TEXT}    20s
+    Wait Until Element Is Visible    ${HOME_READY_TEXT}    ${timeout}
 
 Go To Sign Up Page
     [Documentation]    Navigates from homepage to the registration form.

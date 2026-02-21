@@ -20,7 +20,8 @@ Registration Form Should Show Mandatory Field Validation
 
     Click Sign Up Submit
     Wait Until Element Is Visible    ${SIGN_UP_SUBMIT_BUTTON}    10s
-    Location Should Contain    sign-up
+    ${current_url}=    Get Location
+    Should Contain    ${current_url}    sign-up
 
     ${email_required}=    Field Is Required If Present    ${EMAIL_INPUT}
     Should Be True    ${email_required}
