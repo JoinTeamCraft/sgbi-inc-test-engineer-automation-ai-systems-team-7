@@ -1,14 +1,9 @@
 *** Settings ***
-Documentation     SG-7 - Verify login with valid credential
-Library           SeleniumLibrary
-Resource          ../../resources/keywords.robot
-Resource          ../../resources/locators.robot
-Suite Setup       Open MoRent Website
-Suite Teardown    Close Browser
+Resource    ../../resources/keywords.robot
+
 *** Test Cases ***
 Verify Login With Valid Credentials
-    Click Login Button
-    Enter Email And Continue
-    Enter Password And Continue
-    Handle OTP If Present
+    Open MoRent Website
+    Go To Login Page
+    Login With Valid Credentials
     Verify Successful Login
