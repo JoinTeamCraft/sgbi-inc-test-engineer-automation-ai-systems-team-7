@@ -12,3 +12,4 @@ Verify User Can Open Manage Account Modal From Profile Dropdown
     Click Manage Account
     Verify Manage Account Modal Is Open
     Close Browser
+

@@ -1,37 +1,37 @@
 *** Settings ***
 Documentation     Template for reusable keywords
 Library           SeleniumLibrary
+Library           ../config/env_config.py
 Resource          locators.robot
-
-*** Variables ***
-${BASE_URL}       https://morent-car.archisacademy.com/
-${BROWSER}        chrome
-${TEST_EMAIL}     doe+clerk_test@example.com
-${TEST_PASSWORD}  morenttest@12345
-${OTP_CODE}       424242
 
 
 *** Keywords ***
 Open Browser To MoRent
-    Open Browser    ${BASE_URL}    ${BROWSER}
+    ${url}=        Get Base Url
+    ${browser}=    Get Browser
+    Open Browser    ${url}    ${browser}
     Maximize Browser Window
     Set Selenium Timeout    10s
 
 Login With Valid Credentials
+    ${email}=      Get Test Email
+    ${password}=   Get Test Password
+
     Wait Until Element Is Visible    ${SIGN_IN_BUTTON}    10s
     Click Element    ${SIGN_IN_BUTTON}
 
     Wait Until Element Is Visible    ${EMAIL_IDENTIFIER_FIELD}    10s
-    Input Text    ${EMAIL_IDENTIFIER_FIELD}    ${TEST_EMAIL}
-    Click Element    ${EMAIL_CONTINUE_BTN}
+    Input Text    ${EMAIL_IDENTIFIER_FIELD}    ${email}
+    Click Element    ${CONTINUE_BTN}
 
     Wait Until Element Is Visible    ${PASSWORD_FIELD}    10s
-    Input Text    ${PASSWORD_FIELD}    ${TEST_PASSWORD}
-    Click Element    ${PASSWORD_CONTINUE_BTN}
+    Input Text    ${PASSWORD_FIELD}    ${password}
+    Click Element    ${CONTINUE_BTN}
 
     Run Keyword And Ignore Error    Handle OTP If Present
 
 Handle OTP If Present
+    ${OTP_CODE}=    Get Otp Code
     Wait Until Element Is Visible    xpath=//h1[text()='Check your email']    5s
     Input Text    xpath=//input[@autocomplete='one-time-code']    ${OTP_CODE}
 
