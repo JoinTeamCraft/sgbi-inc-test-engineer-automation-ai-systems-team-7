@@ -7,4 +7,5 @@ ${LOGIN_BUTTON}     xpath=//button[normalize-space()='Sign in']
 ${EMAIL_INPUT}      id=identifier-field
 ${PASSWORD_INPUT}   xpath=//input[@type='password']
 ${SUBMIT_BUTTON}    css=button.cl-formButtonPrimary
-${LOGOUT_BUTTON}    xpath=//button[normalize-space()='signOut']
+${OTP_INPUT}        xpath=//input[@autocomplete='one-time-code']
+${VERIFY_BUTTON}    xpath=//button[contains(.,'Continue') or contains(.,'Verify')]
