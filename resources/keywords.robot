@@ -9,9 +9,9 @@ Open MoRent Website
     Open Browser    https://morent-car.archisacademy.com/    chrome
 Open MoRent Home Page
     [Documentation]    Opens the MoRent homepage and waits until main content is visible.
-    ${base_url}=    Get Base Url
-    ${browser}=    Get Browser
-    ${timeout}=    Get Default Timeout
+    ${base_url}=    Set Variable    ${BASE_URL}
+    ${browser}=    Set Variable    chrome
+    ${timeout}=    Set Variable    10s
     ${browser_lower}=    Evaluate    str("""${browser}""").lower()
     IF    '${browser_lower}' == 'chrome'
         ${open_status}    ${open_msg}=    Run Keyword And Ignore Error    Open Chrome Browser Less Detectable    ${base_url}
@@ -60,7 +60,7 @@ Verify User Is Logged In
     Element Should Be Visible       ${SIGNOUT_BUTTON}
 
     Log    User login verified successfully 
-    Wait Until Keyword Succeeds    60s    5s    Wait Until Element Is Visible    ${HOME_READY_TEXT}    ${timeout}
+    Wait Until Element Is Visible    ${HOME_READY_TEXT}    ${timeout}
 
 Open Chrome Browser Less Detectable
     [Arguments]    ${base_url}
@@ -79,17 +79,16 @@ Open Chrome Browser Less Detectable
 
 Go To Sign Up Page
     [Documentation]    Navigates from homepage to the registration form.
-    Wait Until Element Is Visible    ${SIGN_IN_BUTTON}    20s
+    Wait Until Element Is Visible    ${SIGN_IN_BUTTON}    10s
     Click Button    ${SIGN_IN_BUTTON}
-    Sleep    2s
     ${handles}=    Get Window Handles
     ${handle_count}=    Get Length    ${handles}
     IF    ${handle_count} > 1
         Switch Window    NEW
     END
-    Wait Until Element Is Visible    ${SIGN_UP_LINK}    20s
-    Wait Until Keyword Succeeds    10s    1s    Click Element    ${SIGN_UP_LINK}
-    Wait Until Element Is Visible    ${SIGN_UP_HEADING}    20s
+    Wait Until Element Is Visible    ${SIGN_UP_LINK}    10s
+    Click Element    ${SIGN_UP_LINK}
+    Wait Until Element Is Visible    ${SIGN_UP_HEADING}    10s
 
 Clear Field If Present
     [Arguments]    ${locator}
@@ -111,13 +110,13 @@ Click Sign Up Submit
 Submit Registration Form Handling Human Check
     [Documentation]    Submits registration; if Cloudflare challenge appears, wait for manual completion.
     Click Sign Up Submit
-    Sleep    3s
+    Sleep    1s
     ${still_on_signup}=    Run Keyword And Return Status    Assert Still On Registration Page
     IF    ${still_on_signup}
         ${human_check_present}=    Run Keyword And Return Status    Page Should Contain Element    ${HUMAN_VERIFY_TEXT}
         IF    ${human_check_present}
             Log To Console    Cloudflare human verification is shown. Complete it and click Continue manually.
-            Wait Until Keyword Succeeds    4m    2s    Registration Should Move Past Sign Up
+            Wait Until Keyword Succeeds    1m    1s    Registration Should Move Past Sign Up
             RETURN
         END
     END
@@ -292,7 +291,7 @@ Assert No Visible Registration Errors
 
 Wait For Registration Success Indicator
     [Documentation]    Accepts either OTP/verification screen signal or navigation away from sign-up.
-    Wait Until Keyword Succeeds    30s    1s    Registration Success Indicator Should Be Visible
+    Wait Until Keyword Succeeds    10s    1s    Registration Success Indicator Should Be Visible
 
 Registration Success Indicator Should Be Visible
     ${current_url}=    Get Location
@@ -304,9 +303,8 @@ Registration Success Indicator Should Be Visible
 
 Pause For Manual OTP Completion
     [Documentation]    Manual step: complete OTP while test waits for verification flow to finish.
-    ${otp_wait}=    Get Config Value    MORENT_OTP_WAIT    2m
     Log To Console    Complete OTP verification manually in the browser. Waiting for redirect...
-    Wait Until Keyword Succeeds    ${otp_wait}    2s    OTP Flow Should Be Completed
+    Wait Until Keyword Succeeds    45s    1s    OTP Flow Should Be Completed
 
 OTP Flow Should Be Completed
     ${current_url}=    Get Location
@@ -315,7 +313,7 @@ OTP Flow Should Be Completed
 
 Verify Redirected To Login Or Home Page
     [Documentation]    Verifies final URL lands on expected destination after successful registration.
-    Wait Until Keyword Succeeds    120s    2s    Redirect Should Be Login Or Home
+    Wait Until Keyword Succeeds    30s    1s    Redirect Should Be Login Or Home
 
 Redirect Should Be Login Or Home
     ${current_url}=    Get Location
