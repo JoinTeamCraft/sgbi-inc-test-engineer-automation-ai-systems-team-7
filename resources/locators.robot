@@ -1,11 +1,20 @@
 *** Settings ***
-Documentation     Common locators for MoRent
+Documentation     Template for common locators
 Library           SeleniumLibrary
 
 *** Variables ***
-${LOGIN_BUTTON}     xpath=//button[normalize-space()='Sign in']
-${EMAIL_INPUT}      id=identifier-field
-${PASSWORD_INPUT}   xpath=//input[@type='password']
-${SUBMIT_BUTTON}    css=button.cl-formButtonPrimary
-${OTP_INPUT}        xpath=//input[@autocomplete='one-time-code']
-${SIGNOUT_BUTTON}        xpath=//div[contains(@class,'profile')]//button[contains(.,'sign Out') or contains(.,'Logout')]
+# Add your application locators here
+# ${EXAMPLE_LOCATOR}    id=example
+
+# Home Page Locators
+${HOME_SEARCH_BUTTON}    xpath=//button/span[text()='Search']
+${HOME_PAGE_LOGO}    xpath=//a/span[text()='MORENT']
+${HOME_PAGE_MAIN_CONTAINER}    xpath=//main[contains(@class,'container')]
+${HOME_PAGE_SEARCH_BAR}    xpath=//input[@type='search' and @placeholder='Search something here']
+
+# Header Locators
+${HEADER_SECTION}    xpath=//header[contains(@class,'header')]
+${FAVORITE_LINK}    xpath=//a[contains(@href,'/favourites')]//button[@aria-label='Favorite Icon']
+${ORDERS_LINK}    xpath=//a[contains(@href,'/orders')]//button[@aria-label='Notification Icon']
+${USER_SETTINGS_BUTTON}    xpath=//button[@aria-label='User Settings']
+${SIGN_IN_BUTTON}    xpath=//div[contains(@class,'user-sign')]

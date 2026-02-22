@@ -1,9 +1,10 @@
 *** Settings ***
-Resource    ../../resources/keywords.robot
+Documentation     Template for Auth tests
+Resource          ../../resources/keywords.robot
+Resource          ../../resources/locators.robot
 
 *** Test Cases ***
-Verify Login With Valid Credentials
-    Open MoRent Website
-    Go To Login Page
-    Login With Valid Credentials
-    Verify User Is Logged In
+Login Test Template
+    [Documentation]    Placeholder for login test
+    [Tags]    auth
+    Log    Implement login test here
