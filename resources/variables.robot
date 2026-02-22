@@ -1,4 +1,3 @@
 *** Variables ***
-
-${INVALID_EMAIL}         wrong@example.com
-${INVALID_PASSWORD}      wrongpass123
+${VALID_EMAIL}       %{VALID_EMAIL}
+${VALID_PASSWORD}    %{VALID_PASSWORD}
