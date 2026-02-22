@@ -8,4 +8,3 @@ ${EMAIL_INPUT}      id=identifier-field
 ${PASSWORD_INPUT}   xpath=//input[@type='password']
 ${SUBMIT_BUTTON}    css=button.cl-formButtonPrimary
 ${OTP_INPUT}        xpath=//input[@autocomplete='one-time-code']
-${VERIFY_BUTTON}    xpath=//button[contains(.,'Continue') or contains(.,'Verify')]
