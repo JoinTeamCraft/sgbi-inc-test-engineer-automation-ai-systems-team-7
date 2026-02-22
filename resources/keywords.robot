@@ -41,8 +41,13 @@ Login With Valid Credentials
         Press Keys    ${OTP_INPUT}    ENTER
     END
 
-Verify User Is Logged In
-    Wait Until Element Is Visible    ${SIGNOUT_BUTTON}       20s
-    Element Should Be Visible       ${SIGNOUT_BUTTON}
+Verify User Can Logout Successfully
+    
+   
+     Wait Until Element Is Visible    ${PROFILEICON_BUTTON}    5s
 
-    Log    User login verified successfully 
+    IF    ${profile_exists}
+        Click Element    ${PROFILEICON_BUTTON}
+    END
+    Wait Until Element Is Visible    ${SIGNOUT_BUTTON}    20s
+    Click Element    ${SIGNOUT_BUTTON}
