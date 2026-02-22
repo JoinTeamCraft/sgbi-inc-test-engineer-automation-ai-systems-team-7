@@ -28,3 +28,7 @@ ${LAST_NAME_INPUT}              id=lastName-field
 ${EMAIL_INPUT}                  id=emailAddress-field
 ${PASSWORD_INPUT}               id=password-field
 ${CONFIRM_PASSWORD_INPUT}       id=confirmPassword-field
+
+${HOME_MAIN_CONTAINER}          css=main
+${RENTAL_CAR_BUTTON}            xpath=//a[contains(normalize-space(),'Rental Car')]
+${GENERIC_ERROR_TEXT}           xpath=//*[contains(text(),'404') or contains(text(),'500')]

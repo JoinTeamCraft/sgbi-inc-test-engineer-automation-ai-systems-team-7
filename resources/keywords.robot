@@ -239,3 +239,13 @@ Validate Invalid Password Scenario
     Log    Invalid password '${invalid_password}' => url='${post_submit_url}', checkValidity=${password_valid}, validation message='${password_msg}'
     Run Keyword And Continue On Failure    Should Be True    not ${password_valid}
     Run Keyword And Continue On Failure    Should Not Be Empty    ${password_msg}
+
+Verify Home Page Loaded Successfully
+    [Documentation]    Validates that the MoRent home page loads without errors and main content is visible.
+
+    Location Should Be                       ${BASE_URL}
+    Title Should Be                          Morent
+    Wait Until Element Is Visible            ${HOME_MAIN_CONTAINER}    ${DEFAULT_TIMEOUT}
+    Page Should Not Contain Element          ${GENERIC_ERROR_TEXT}
+    Wait Until Page Contains Element         ${RENTAL_CAR_BUTTON}
+    Wait Until Element Is Visible            ${SIGN_IN_BUTTON}         ${DEFAULT_TIMEOUT}
