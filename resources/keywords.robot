@@ -24,32 +24,32 @@ Open MoRent Home Page
         Open Browser    ${base_url}    ${browser}
     END
     Maximize Browser Window
-    Set Selenium Implicit Wait    10s
-    Wait Until Element Is Visible    ${LOGIN_BUTTON}    20s
+    Set Selenium Implicit Wait    ${DEFAULT_TIMEOUT}
+    Wait Until Element Is Visible    ${LOGIN_BUTTON}    ${DEFAULT_TIMEOUT}
 
 Go To Login Page
     Click Element    ${LOGIN_BUTTON}
-    Wait Until Element Is Visible    ${EMAIL_INPUT}    20s
+    Wait Until Element Is Visible    ${EMAIL_INPUT}    ${DEFAULT_TIMEOUT}
 
 Login With Valid Credentials
-    Wait Until Element Is Visible    ${EMAIL_INPUT}    20s
+    Wait Until Element Is Visible    ${EMAIL_INPUT}    ${DEFAULT_TIMEOUT}
     Clear Element Text    ${EMAIL_INPUT}
     Input Text    ${EMAIL_INPUT}    ${VALID_EMAIL}
     Press Keys    ${EMAIL_INPUT}    TAB
 
-    Wait Until Element Is Visible    ${SUBMIT_BUTTON}    20s
+    Wait Until Element Is Visible    ${SUBMIT_BUTTON}    ${DEFAULT_TIMEOUT}
     Click Element    ${SUBMIT_BUTTON}
 
-    Wait Until Element Is Visible    ${PASSWORD_INPUT}    30s
+    Wait Until Element Is Visible    ${PASSWORD_INPUT}    ${DEFAULT_TIMEOUT}
     Clear Element Text    ${PASSWORD_INPUT}
     Input Password    ${PASSWORD_INPUT}    ${VALID_PASSWORD}
 
-    Wait Until Element Is Enabled    ${SUBMIT_BUTTON}    20s
+    Wait Until Element Is Enabled    ${SUBMIT_BUTTON}    ${DEFAULT_TIMEOUT}
     Click Element    ${SUBMIT_BUTTON}
 
     # OTP Handling (Optional)
     ${otp_visible}=    Run Keyword And Return Status
-    ...    Wait Until Element Is Visible    ${OTP_INPUT}    10s
+    ...    Wait Until Element Is Visible    ${OTP_INPUT}    ${DEFAULT_TIMEOUT}
 
     IF    ${otp_visible}
         Clear Element Text    ${OTP_INPUT}
@@ -58,11 +58,11 @@ Login With Valid Credentials
     END
 
 Verify User Is Logged In
-    Wait Until Element Is Visible    ${SIGNOUT_BUTTON}       20s
+    Wait Until Element Is Visible    ${SIGNOUT_BUTTON}    ${DEFAULT_TIMEOUT}
     Element Should Be Visible       ${SIGNOUT_BUTTON}
 
     Log    User login verified successfully 
-    Wait Until Element Is Visible    ${HOME_READY_TEXT}    10s
+    Wait Until Element Is Visible    ${HOME_READY_TEXT}    ${DEFAULT_TIMEOUT}
 
 Open Chrome Browser Less Detectable
     [Arguments]    ${base_url}
@@ -81,16 +81,16 @@ Open Chrome Browser Less Detectable
 
 Go To Sign Up Page
     [Documentation]    Navigates from homepage to the registration form.
-    Wait Until Element Is Visible    ${SIGN_IN_BUTTON}    10s
+    Wait Until Element Is Visible    ${SIGN_IN_BUTTON}    ${DEFAULT_TIMEOUT}
     Click Button    ${SIGN_IN_BUTTON}
     ${handles}=    Get Window Handles
     ${handle_count}=    Get Length    ${handles}
     IF    ${handle_count} > 1
         Switch Window    NEW
     END
-    Wait Until Element Is Visible    ${SIGN_UP_LINK}    10s
+    Wait Until Element Is Visible    ${SIGN_UP_LINK}    ${DEFAULT_TIMEOUT}
     Click Element    ${SIGN_UP_LINK}
-    Wait Until Element Is Visible    ${SIGN_UP_HEADING}    10s
+    Wait Until Element Is Visible    ${SIGN_UP_HEADING}    ${DEFAULT_TIMEOUT}
 
 Clear Field If Present
     [Arguments]    ${locator}
@@ -150,7 +150,7 @@ Field Is Required If Present
 Open Sign Up Page Fresh
     [Documentation]    Opens home page then navigates to sign-up page for isolated scenario checks.
     Go To    ${BASE_URL}
-    Wait Until Element Is Visible    ${HOME_READY_TEXT}    20s
+    Wait Until Element Is Visible    ${HOME_READY_TEXT}    ${DEFAULT_TIMEOUT}
     Go To Sign Up Page
 
 Fill Registration Identity Fields
@@ -239,13 +239,13 @@ Validate Invalid Email Scenario
     Fill Registration Password Fields    ValidPass123!
 
     Click Sign Up Submit
-    Wait Until Element Is Visible    ${SIGN_UP_SUBMIT_BUTTON}    10s
+    Wait Until Element Is Visible    ${SIGN_UP_SUBMIT_BUTTON}    ${DEFAULT_TIMEOUT}
     ${post_submit_url}=    Assert Still On Registration Page
 
     ${email_msg}=    Get Field Validation Feedback    ${SIGNUP_EMAIL_INPUT}
     ${email_valid}=    Get Field Validity If Present    ${SIGNUP_EMAIL_INPUT}
     Log    Invalid email '${invalid_email}' => url='${post_submit_url}', checkValidity=${email_valid}, validation message='${email_msg}'
-    Run Keyword And Continue On Failure    Should Be True    not ${email_valid}
+    Run Keyword And Continue On Failure    Should Be Equal    ${email_valid}    ${FALSE}
     Run Keyword And Continue On Failure    Should Not Be Empty    ${email_msg}
 
 Validate Invalid Password Scenario
@@ -256,13 +256,13 @@ Validate Invalid Password Scenario
     Fill Registration Password Fields    ${invalid_password}
 
     Click Sign Up Submit
-    Wait Until Element Is Visible    ${SIGN_UP_SUBMIT_BUTTON}    10s
+    Wait Until Element Is Visible    ${SIGN_UP_SUBMIT_BUTTON}    ${DEFAULT_TIMEOUT}
     ${post_submit_url}=    Assert Still On Registration Page
 
     ${password_msg}=    Wait Until Keyword Succeeds    10s    500ms    Get Non Empty Field Validation Feedback    ${SIGNUP_PASSWORD_INPUT}
     ${password_valid}=    Get Field Validity If Present    ${SIGNUP_PASSWORD_INPUT}
     Log    Invalid password '${invalid_password}' => url='${post_submit_url}', checkValidity=${password_valid}, validation message='${password_msg}'
-    Run Keyword And Continue On Failure    Should Be True    not ${password_valid}
+    Run Keyword And Continue On Failure    Should Be Equal    ${password_valid}    ${FALSE}
     Run Keyword And Continue On Failure    Should Not Be Empty    ${password_msg}
 
 Build Repeatable Registration Email
