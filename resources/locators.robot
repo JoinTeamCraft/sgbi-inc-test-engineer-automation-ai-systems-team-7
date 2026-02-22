@@ -9,6 +9,7 @@ ${SIGN_IN_BUTTON}               xpath=//button[normalize-space()='Sign in']
 ${SIGN_UP_LINK}                 xpath=//*[normalize-space()='Sign up']
 ${SIGN_UP_HEADING}              xpath=//*[contains(.,'Create your account')]
 ${SIGN_UP_SUBMIT_BUTTON}        xpath=//button[normalize-space()='Continue']
+${SIGN_UP_URL_FRAGMENT}         sign-up
 
 ${FULL_NAME_INPUT}              id=fullName-field
 ${FIRST_NAME_INPUT}             id=firstName-field
