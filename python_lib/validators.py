@@ -12,7 +12,7 @@ class Validators:
 
     def get_invalid_password_inputs(self):
         """Return known-invalid password samples for sign-up validation tests."""
-        return ["123"]
+        return ["123", "password", "12345678"]
 
     def build_unique_email(self, prefix="test.user"):
         """Return a unique email for repeated test execution."""
