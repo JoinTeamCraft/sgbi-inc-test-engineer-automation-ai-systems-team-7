@@ -1,44 +1,48 @@
 *** Settings ***
 Library    SeleniumLibrary
-Library    ../config/env_config.py
 Resource   locators.robot
-
-*** Variables ***
-${DEFAULT_TIMEOUT}    ${None}
+Resource   variables.robot
 
 *** Keywords ***
 
 Open MoRent Website
-    ${browser}=    Get Browser
-    ${url}=        Get Base Url
-    ${timeout}=    Get Default Timeout
-
-    Set Suite Variable    ${DEFAULT_TIMEOUT}    ${timeout}
-
-    Open Browser    ${url}    ${browser}
+    Open Browser    https://morent-car.archisacademy.com/    chrome
     Maximize Browser Window
-    Set Selenium Timeout    ${timeout}
-
-    Wait Until Element Is Visible    ${LOGIN_BUTTON}    ${DEFAULT_TIMEOUT}
+    Set Selenium Implicit Wait    10s
+    Wait Until Element Is Visible    ${LOGIN_BUTTON}    20s
 
 Go To Login Page
     Click Element    ${LOGIN_BUTTON}
-    Wait Until Element Is Visible    ${EMAIL_INPUT}    ${DEFAULT_TIMEOUT}
+    Wait Until Element Is Visible    ${EMAIL_INPUT}    20s
 
-Login With Invalid Credentials
-    Input Text        ${EMAIL_INPUT}      invalid@example.com
-    Click Element     ${SUBMIT_BUTTON}
+Login With Valid Credentials
+    Wait Until Element Is Visible    ${EMAIL_INPUT}    20s
+    Clear Element Text    ${EMAIL_INPUT}
+    Input Text    ${EMAIL_INPUT}    ${VALID_EMAIL}
+    Press Keys    ${EMAIL_INPUT}    TAB
 
-    Wait Until Element Is Visible    ${PASSWORD_INPUT}    ${DEFAULT_TIMEOUT}
-    Input Password    ${PASSWORD_INPUT}   wrongpassword
-    Click Element     ${SUBMIT_BUTTON}
+    Wait Until Element Is Visible    ${SUBMIT_BUTTON}    20s
+    Click Element    ${SUBMIT_BUTTON}
 
-Verify Login Failed
-    Wait Until Element Is Visible    ${LOGIN_ERROR_MESSAGE}    ${DEFAULT_TIMEOUT}
-    Element Should Be Visible        ${LOGIN_ERROR_MESSAGE}
+    Wait Until Element Is Visible    ${PASSWORD_INPUT}    30s
+    Clear Element Text    ${PASSWORD_INPUT}
+    Input Password    ${PASSWORD_INPUT}    ${VALID_PASSWORD}
 
-Get Non Empty Field Validation Feedback
-    [Arguments]    ${locator}
-    ${message}=    Get Element Attribute    ${locator}    validationMessage
-    Should Not Be Empty    ${message}
-    [Return]    ${message}
+    Wait Until Element Is Enabled    ${SUBMIT_BUTTON}    20s
+    Click Element    ${SUBMIT_BUTTON}
+
+    # OTP Handling (Optional)
+    ${otp_visible}=    Run Keyword And Return Status
+    ...    Wait Until Element Is Visible    ${OTP_INPUT}    10s
+
+    IF    ${otp_visible}
+        Clear Element Text    ${OTP_INPUT}
+        Input Text    ${OTP_INPUT}    ${OTP_CODE}
+        Press Keys    ${OTP_INPUT}    ENTER
+    END
+
+Verify User Is Logged In
+    Wait Until Element Is Visible    ${SIGNOUT_BUTTON}       20s
+    Element Should Be Visible       ${SIGNOUT_BUTTON}
+
+    Log    User login verified successfully 
