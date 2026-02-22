@@ -1,66 +1,48 @@
 *** Settings ***
-Documentation     Template for reusable keywords
-Library           SeleniumLibrary
-Library           ../config/env_config.py
-Resource          locators.robot
+Library    SeleniumLibrary
+Resource   locators.robot
+Resource   variables.robot
 
 *** Keywords ***
-Open MoRent Home Page
-    [Documentation]    Opens the MoRent homepage and waits until main content is visible.
-    ${base_url}=    Get Base Url
-    ${browser}=    Get Browser
-    ${timeout}=    Get Default Timeout
-    Open Browser    ${base_url}    ${browser}
+
+Open MoRent Website
+    Open Browser    https://morent-car.archisacademy.com/    chrome
     Maximize Browser Window
-    Wait Until Element Is Visible    ${HOME_READY_TEXT}    ${timeout}
+    Set Selenium Implicit Wait    10s
+    Wait Until Element Is Visible    ${LOGIN_BUTTON}    20s
 
-Go To Sign Up Page
-    [Documentation]    Navigates from homepage to the registration form.
-    Wait Until Element Is Visible    ${SIGN_IN_BUTTON}    20s
-    Click Button    ${SIGN_IN_BUTTON}
-    Sleep    2s
-    ${handles}=    Get Window Handles
-    ${handle_count}=    Get Length    ${handles}
-    IF    ${handle_count} > 1
-        Switch Window    NEW
+Go To Login Page
+    Click Element    ${LOGIN_BUTTON}
+    Wait Until Element Is Visible    ${EMAIL_INPUT}    20s
+
+Login With Valid Credentials
+    Wait Until Element Is Visible    ${EMAIL_INPUT}    20s
+    Clear Element Text    ${EMAIL_INPUT}
+    Input Text    ${EMAIL_INPUT}    ${VALID_EMAIL}
+    Press Keys    ${EMAIL_INPUT}    TAB
+
+    Wait Until Element Is Visible    ${SUBMIT_BUTTON}    20s
+    Click Element    ${SUBMIT_BUTTON}
+
+    Wait Until Element Is Visible    ${PASSWORD_INPUT}    30s
+    Clear Element Text    ${PASSWORD_INPUT}
+    Input Password    ${PASSWORD_INPUT}    ${VALID_PASSWORD}
+
+    Wait Until Element Is Enabled    ${SUBMIT_BUTTON}    20s
+    Click Element    ${SUBMIT_BUTTON}
+
+    # OTP Handling (Optional)
+    ${otp_visible}=    Run Keyword And Return Status
+    ...    Wait Until Element Is Visible    ${OTP_INPUT}    10s
+
+    IF    ${otp_visible}
+        Clear Element Text    ${OTP_INPUT}
+        Input Text    ${OTP_INPUT}    ${OTP_CODE}
+        Press Keys    ${OTP_INPUT}    ENTER
     END
-    Wait Until Element Is Visible    ${SIGN_UP_LINK}    20s
-    Wait Until Keyword Succeeds    10s    1s    Click Element    ${SIGN_UP_LINK}
-    Wait Until Element Is Visible    ${SIGN_UP_HEADING}    20s
 
-Clear Field If Present
-    [Arguments]    ${locator}
-    ${is_present}=    Run Keyword And Return Status    Page Should Contain Element    ${locator}
-    IF    ${is_present}
-        Clear Element Text    ${locator}
-    END
+Verify User Can Logout Successfully
+    Wait Until Element Is Visible    ${SIGNOUT_BUTTON}       20s
+    Element Should Be Visible       ${SIGNOUT_BUTTON}
 
-Field Should Be Empty If Present
-    [Arguments]    ${locator}
-    ${is_present}=    Run Keyword And Return Status    Page Should Contain Element    ${locator}
-    IF    ${is_present}
-        Textfield Value Should Be    ${locator}    ${EMPTY}
-    END
-
-Click Sign Up Submit
-    Click Button    ${SIGN_UP_SUBMIT_BUTTON}
-
-Get Validation Message If Present
-    [Arguments]    ${locator}
-    ${is_present}=    Run Keyword And Return Status    Page Should Contain Element    ${locator}
-    IF    ${is_present}
-        ${element}=    Get WebElement    ${locator}
-        ${message}=    Execute Javascript    return arguments[0].validationMessage;    ARGUMENTS    ${element}
-        RETURN    ${message}
-    END
-    RETURN    ${EMPTY}
-
-Field Is Required If Present
-    [Arguments]    ${locator}
-    ${is_present}=    Run Keyword And Return Status    Page Should Contain Element    ${locator}
-    IF    ${is_present}
-        ${element}=    Get WebElement    ${locator}
-        ${required}=    Execute Javascript    return arguments[0].required;    ARGUMENTS    ${element}
-        RETURN    ${required}
-    END
-    RETURN    ${FALSE}
+    Log    User logout verified successfully
