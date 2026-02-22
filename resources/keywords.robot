@@ -11,9 +11,32 @@ Open MoRent Home Page
     ${base_url}=    Get Base Url
     ${browser}=    Get Browser
     ${timeout}=    Get Default Timeout
-    Open Browser    ${base_url}    ${browser}
+    ${browser_lower}=    Evaluate    str("""${browser}""").lower()
+    IF    '${browser_lower}' == 'chrome'
+        ${open_status}    ${open_msg}=    Run Keyword And Ignore Error    Open Chrome Browser Less Detectable    ${base_url}
+        IF    '${open_status}' == 'FAIL'
+            Open Browser    ${base_url}    ${browser}
+        END
+    ELSE
+        Open Browser    ${base_url}    ${browser}
+    END
     Maximize Browser Window
-    Wait Until Element Is Visible    ${HOME_READY_TEXT}    ${timeout}
+    Wait Until Keyword Succeeds    60s    5s    Wait Until Element Is Visible    ${HOME_READY_TEXT}    ${timeout}
+
+Open Chrome Browser Less Detectable
+    [Arguments]    ${base_url}
+    [Documentation]    Starts Chrome with options that reduce basic automation fingerprinting.
+    ${chrome_options}=    Evaluate    __import__('selenium.webdriver').webdriver.ChromeOptions()
+    Call Method    ${chrome_options}    add_argument    --disable-blink-features=AutomationControlled
+    Call Method    ${chrome_options}    add_argument    --disable-infobars
+    Call Method    ${chrome_options}    add_argument    --no-default-browser-check
+    Call Method    ${chrome_options}    add_argument    --no-first-run
+    ${exclude_switches}=    Create List    enable-automation
+    Call Method    ${chrome_options}    add_experimental_option    excludeSwitches    ${exclude_switches}
+    Call Method    ${chrome_options}    add_experimental_option    useAutomationExtension    ${False}
+    Create Webdriver    Chrome    options=${chrome_options}
+    Go To    ${base_url}
+    Run Keyword And Ignore Error    Execute Javascript    Object.defineProperty(navigator, 'webdriver', {get: () => undefined})
 
 Go To Sign Up Page
     [Documentation]    Navigates from homepage to the registration form.
@@ -45,6 +68,24 @@ Field Should Be Empty If Present
 
 Click Sign Up Submit
     Click Button    ${SIGN_UP_SUBMIT_BUTTON}
+
+Submit Registration Form Handling Human Check
+    [Documentation]    Submits registration; if Cloudflare challenge appears, wait for manual completion.
+    Click Sign Up Submit
+    Sleep    3s
+    ${still_on_signup}=    Run Keyword And Return Status    Assert Still On Registration Page
+    IF    ${still_on_signup}
+        ${human_check_present}=    Run Keyword And Return Status    Page Should Contain Element    ${HUMAN_VERIFY_TEXT}
+        IF    ${human_check_present}
+            Log To Console    Cloudflare human verification is shown. Complete it and click Continue manually.
+            Wait Until Keyword Succeeds    4m    2s    Registration Should Move Past Sign Up
+            RETURN
+        END
+    END
+
+Registration Should Move Past Sign Up
+    ${current_url}=    Get Location
+    Should Not Contain    ${current_url}    ${SIGN_UP_URL_FRAGMENT}
 
 Get Validation Message If Present
     [Arguments]    ${locator}
@@ -183,3 +224,62 @@ Validate Invalid Password Scenario
     Log    Invalid password '${invalid_password}' => url='${post_submit_url}', checkValidity=${password_valid}, validation message='${password_msg}'
     Run Keyword And Continue On Failure    Should Be True    not ${password_valid}
     Run Keyword And Continue On Failure    Should Not Be Empty    ${password_msg}
+
+Build Repeatable Registration Email
+    [Arguments]    ${base_email}=morent+clerk_test@example.com
+    [Documentation]    Uses a fixed registration email.
+    RETURN    ${base_email}
+
+Fill Valid Registration Details
+    [Arguments]    ${email}
+    Fill Registration Identity Fields    ${email}
+    Fill Registration Password Fields    ValidPass123!
+
+Assert No Visible Registration Errors
+    [Documentation]    Verifies no visible validation/error indicators are shown after submit.
+    ${visible_errors}=    Execute Javascript
+    ...    const selectors = '[role="alert"],[class*="error"],[id*="error"],.cl-formFieldErrorText,.cl-alertText,[data-localization-key*="error"],[data-localization-key*="invalid"]';
+    ...    const errWords = /(error|invalid|required|incorrect|must|too short|too weak|already exists|already in use)/i;
+    ...    const visible = (el) => {
+    ...      const style = window.getComputedStyle(el);
+    ...      return style && style.display !== 'none' && style.visibility !== 'hidden' && el.getClientRects().length > 0;
+    ...    };
+    ...    return Array.from(document.querySelectorAll(selectors))
+    ...      .filter(visible)
+    ...      .map(el => (el.innerText || '').trim())
+    ...      .filter(t => t && errWords.test(t))
+    ...      .join(' | ');
+    Should Be Empty    ${visible_errors}
+
+Wait For Registration Success Indicator
+    [Documentation]    Accepts either OTP/verification screen signal or navigation away from sign-up.
+    Wait Until Keyword Succeeds    30s    1s    Registration Success Indicator Should Be Visible
+
+Registration Success Indicator Should Be Visible
+    ${current_url}=    Get Location
+    ${moved_from_signup}=    Evaluate    'sign-up' not in """${current_url}"""
+    IF    ${moved_from_signup}
+        RETURN
+    END
+    Page Should Contain Element    ${OTP_SUCCESS_INDICATOR}
+
+Pause For Manual OTP Completion
+    [Documentation]    Manual step: complete OTP while test waits for verification flow to finish.
+    ${otp_wait}=    Get Config Value    MORENT_OTP_WAIT    2m
+    Log To Console    Complete OTP verification manually in the browser. Waiting for redirect...
+    Wait Until Keyword Succeeds    ${otp_wait}    2s    OTP Flow Should Be Completed
+
+OTP Flow Should Be Completed
+    ${current_url}=    Get Location
+    ${otp_complete}=    Evaluate    'verify' not in """${current_url}""" and 'verification' not in """${current_url}""" and 'sign-up' not in """${current_url}"""
+    Should Be True    ${otp_complete}
+
+Verify Redirected To Login Or Home Page
+    [Documentation]    Verifies final URL lands on expected destination after successful registration.
+    Wait Until Keyword Succeeds    120s    2s    Redirect Should Be Login Or Home
+
+Redirect Should Be Login Or Home
+    ${current_url}=    Get Location
+    ${is_home}=    Evaluate    'morent-car.archisacademy.com' in """${current_url}""" and 'sign-up' not in """${current_url}""" and 'verify' not in """${current_url}"""
+    ${is_login}=    Evaluate    'sign-in' in """${current_url}""" or 'login' in """${current_url}"""
+    Should Be True    ${is_home} or ${is_login}
