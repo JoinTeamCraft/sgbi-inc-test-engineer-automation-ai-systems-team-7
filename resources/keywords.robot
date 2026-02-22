@@ -1,41 +1,56 @@
+*** Settings ***
+Library    SeleniumLibrary
+Library    ../config/env_config.py
+Resource   locators.robot
+Resource   variables.robot
+
+*** Variables ***
+${DEFAULT_TIMEOUT}    ${None}
+
 *** Keywords ***
 
 Open MoRent Website
-    Open Browser    ${BASE_URL}    chrome
+    ${browser}=    Get Browser
+    ${url}=        Get Base Url
+    ${timeout}=    Get Default Timeout
+
+    Set Suite Variable    ${DEFAULT_TIMEOUT}    ${timeout}
+
+    Open Browser    ${url}    ${browser}
     Maximize Browser Window
-    Set Selenium Implicit Wait    10s
-    Wait Until Element Is Visible    ${SIGN_IN_BUTTON}    20s
+    Set Selenium Timeout    ${timeout}
+
+    Wait Until Element Is Visible    ${LOGIN_BUTTON}    ${DEFAULT_TIMEOUT}
 
 Go To Login Page
-    Click Element    ${SIGN_IN_BUTTON}
-    Wait Until Element Is Visible    ${EMAIL_IDENTIFIER_FIELD}    20s
+    Click Element    ${LOGIN_BUTTON}
+    Wait Until Element Is Visible    ${EMAIL_INPUT}    ${DEFAULT_TIMEOUT}
+
+Login With Valid Credentials
+    Input Text        ${EMAIL_INPUT}      ${VALID_EMAIL}
+    Click Element     ${SUBMIT_BUTTON}
+
+    Wait Until Element Is Visible    ${PASSWORD_INPUT}    ${DEFAULT_TIMEOUT}
+    Input Password    ${PASSWORD_INPUT}   ${VALID_PASSWORD}
+    Click Element     ${SUBMIT_BUTTON}
 
 Login With Invalid Credentials
-    Input Text    ${EMAIL_IDENTIFIER_FIELD}    ${INVALID_EMAIL}
-    Press Keys    ${EMAIL_IDENTIFIER_FIELD}    TAB
-    Click Element    ${CONTINUE_BTN}
+    Input Text        ${EMAIL_INPUT}      invalid@example.com
+    Click Element     ${SUBMIT_BUTTON}
 
-    Wait Until Element Is Visible    ${PASSWORD_FIELD}    20s
-    Input Password    ${PASSWORD_FIELD}    ${INVALID_PASSWORD}
-    Click Element    ${CONTINUE_BTN}
+    Wait Until Element Is Visible    ${PASSWORD_INPUT}    ${DEFAULT_TIMEOUT}
+    Input Password    ${PASSWORD_INPUT}   wrongpassword
+    Click Element     ${SUBMIT_BUTTON}
 
-    ${password_msg}=    Wait Until Keyword Succeeds    10s    500ms
-    ...    Get Non Empty Field Validation Feedback    ${PASSWORD_FIELD}
+Verify Login Successful
+    Wait Until Page Does Not Contain Element    ${LOGIN_ERROR_MESSAGE}    ${DEFAULT_TIMEOUT}
 
-    ${password_valid}=    Get Field Validity If Present    ${PASSWORD_FIELD}
+Verify Login Failed
+    Wait Until Element Is Visible    ${LOGIN_ERROR_MESSAGE}    ${DEFAULT_TIMEOUT}
+    Element Should Be Visible        ${LOGIN_ERROR_MESSAGE}
 
-    Log    Invalid password validation message='${password_msg}'
-
-    Run Keyword And Continue On Failure    Should Be True    not ${password_valid}
-    Run Keyword And Continue On Failure    Should Not Be Empty    ${password_msg}
-
-
-Verify Home Page Loaded Successfully
-    [Documentation]    Validates that the MoRent home page loads without errors and main content is visible.
-
-    Location Should Be                       ${BASE_URL}
-    Title Should Be                          Morent
-    Wait Until Element Is Visible            ${HOME_MAIN_CONTAINER}    ${DEFAULT_TIMEOUT}
-    Page Should Not Contain Element          ${GENERIC_ERROR_TEXT}
-    Wait Until Page Contains Element         ${RENTAL_CAR_BUTTON}
-    Wait Until Element Is Visible            ${SIGN_IN_BUTTON}         ${DEFAULT_TIMEOUT}
+Get Non Empty Field Validation Feedback
+    [Arguments]    ${locator}
+    ${message}=    Get Element Attribute    ${locator}    validationMessage
+    Should Not Be Empty    ${message}
+    [Return]    ${message}
