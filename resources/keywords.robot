@@ -35,10 +35,10 @@ Login With Valid Credentials
 Handle OTP If Present
     ${OTP_CODE}=    Set Variable    %{OTP_CODE}
     ${status}=    Run Keyword And Return Status
-    ...    Wait Until Element Is Visible    xpath=//input[@autocomplete='one-time-code']    5s
+    ...    Wait Until Element Is Visible    ${OTP_INPUT_FIELD}    ${DEFAULT_TIMEOUT}
 
     Run Keyword If    ${status}
-    ...    Input Text    xpath=//input[@autocomplete='one-time-code']    ${OTP_CODE}
+    ...    Input Text    ${OTP_INPUT_FIELD}    ${OTP_CODE}
 
 
 Verify Login Successful
