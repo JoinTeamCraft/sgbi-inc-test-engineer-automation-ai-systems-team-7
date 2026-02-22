@@ -48,3 +48,16 @@ Registration Form Should Show Mandatory Field Validation
         ${confirm_password_msg}=    Get Validation Message If Present    ${CONFIRM_PASSWORD_INPUT}
         Should Not Be Empty    ${confirm_password_msg}
     END
+
+Registration Form Should Reject Invalid Email And Password Inputs
+    [Documentation]    Runs parameterized invalid email and invalid password scenarios in one flow.
+    [Tags]    auth    signup    validation    negative
+    ${invalid_emails}=    Get Invalid Email Inputs
+    FOR    ${invalid_email}    IN    @{invalid_emails}
+        Validate Invalid Email Scenario    ${invalid_email}
+    END
+
+    ${invalid_passwords}=    Get Invalid Password Inputs
+    FOR    ${invalid_password}    IN    @{invalid_passwords}
+        Validate Invalid Password Scenario    ${invalid_password}
+    END
