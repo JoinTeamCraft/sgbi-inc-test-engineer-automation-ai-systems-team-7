@@ -6,7 +6,9 @@ Resource   variables.robot
 *** Keywords ***
 
 Open MoRent Website
-    Open Browser    https://morent-car.archisacademy.com/    chrome
+    ${url}=       Get Base Url
+    ${browser}=   Get Browser
+    Open Browser    ${url}    ${browser}
     Maximize Browser Window
     Set Selenium Implicit Wait    10s
     Wait Until Element Is Visible    ${LOGIN_BUTTON}    20s
