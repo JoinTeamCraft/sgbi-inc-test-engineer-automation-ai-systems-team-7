@@ -4,8 +4,64 @@ Library           SeleniumLibrary
 Library           ../config/env_config.py
 Library           ../python_lib/validators.py
 Resource          locators.robot
+Resource          test_data.robot
+
 
 *** Keywords ***
+Open Browser To MoRent
+    Open Browser    ${BASE_URL}     ${BROWSER}
+    Maximize Browser Window
+    Set Selenium Timeout    ${DEFAULT_TIMEOUT}
+
+Login With Valid Credentials
+    ${EMAIL}=       Set Variable    %{TEST_EMAIL}
+    ${PASSWORD}=    Set Variable    %{TEST_PASSWORD}
+
+    Wait Until Element Is Visible    ${SIGN_IN_BUTTON}    ${DEFAULT_TIMEOUT}
+    Click Element    ${SIGN_IN_BUTTON}
+
+    Wait Until Element Is Visible    ${EMAIL_IDENTIFIER_FIELD}    ${DEFAULT_TIMEOUT}
+    Clear Element Text    ${EMAIL_IDENTIFIER_FIELD}
+    Input Text    ${EMAIL_IDENTIFIER_FIELD}    ${EMAIL}
+    Click Element    ${CONTINUE_BTN}
+
+    Wait Until Element Is Visible    ${PASSWORD_FIELD}    ${DEFAULT_TIMEOUT}
+    Clear Element Text    ${PASSWORD_FIELD}
+    Input Text    ${PASSWORD_FIELD}    ${PASSWORD}
+    Click Element    ${CONTINUE_BTN}
+
+    Run Keyword And Ignore Error    Handle OTP If Present
+
+Handle OTP If Present
+    ${OTP_CODE}=    Set Variable    %{OTP_CODE}
+    ${status}=    Run Keyword And Return Status
+    ...    Wait Until Element Is Visible    ${OTP_INPUT_FIELD}    ${DEFAULT_TIMEOUT}
+
+    Run Keyword If    ${status}
+    ...    Input Text    ${OTP_INPUT_FIELD}    ${OTP_CODE}
+
+
+Verify Login Successful
+    Wait Until Element Is Visible    ${PROFILE_ICON}    ${DEFAULT_TIMEOUT}
+
+Open Profile Dropdown
+    Verify Login Successful
+    Click Element    ${PROFILE_ICON}
+
+Click Manage Account
+    Click Element    ${MANAGE_ACCOUNT}
+
+Verify Manage Account Modal Is Open
+    Wait Until Element Is Visible    ${ACCOUNT_MODAL}    ${DEFAULT_TIMEOUT}
+
+    # Validate modal content
+    Element Should Be Visible      ${PROFILE_DETAIL}
+    Element Should Be Visible      ${MANAGE_YOUR_ACCOUNT}
+
+    #Validate sidebar visibility
+    Element Should Be Visible      ${SIDEBAR_PROFILE_OPTION}
+    Element Should Be Visible      ${SIDEBAR_SECURITY_OPTION}
+
 Open MoRent Home Page
     [Documentation]    Opens the MoRent homepage and waits until main content is visible.
     ${base_url}=    Get Base Url
@@ -17,7 +73,7 @@ Open MoRent Home Page
 
 Go To Sign Up Page
     [Documentation]    Navigates from homepage to the registration form.
-    Wait Until Element Is Visible    ${SIGN_IN_BUTTON}    20s
+    Wait Until Element Is Visible    ${SIGN_IN_BUTTON}    ${DEFAULT_TIMEOUT}
     Click Button    ${SIGN_IN_BUTTON}
     Sleep    2s
     ${handles}=    Get Window Handles
@@ -25,9 +81,9 @@ Go To Sign Up Page
     IF    ${handle_count} > 1
         Switch Window    NEW
     END
-    Wait Until Element Is Visible    ${SIGN_UP_LINK}    20s
-    Wait Until Keyword Succeeds    10s    1s    Click Element    ${SIGN_UP_LINK}
-    Wait Until Element Is Visible    ${SIGN_UP_HEADING}    20s
+    Wait Until Element Is Visible    ${SIGN_UP_LINK}    ${DEFAULT_TIMEOUT}
+    Wait Until Keyword Succeeds    ${DEFAULT_TIMEOUT}    1s    Click Element    ${SIGN_UP_LINK}
+    Wait Until Element Is Visible    ${SIGN_UP_HEADING}    ${DEFAULT_TIMEOUT}
 
 Clear Field If Present
     [Arguments]    ${locator}
@@ -69,7 +125,7 @@ Field Is Required If Present
 Open Sign Up Page Fresh
     [Documentation]    Opens home page then navigates to sign-up page for isolated scenario checks.
     Go To    ${BASE_URL}
-    Wait Until Element Is Visible    ${HOME_READY_TEXT}    20s
+    Wait Until Element Is Visible    ${HOME_READY_TEXT}    ${DEFAULT_TIMEOUT}
     Go To Sign Up Page
 
 Fill Registration Identity Fields
@@ -158,7 +214,7 @@ Validate Invalid Email Scenario
     Fill Registration Password Fields    ValidPass123!
 
     Click Sign Up Submit
-    Wait Until Element Is Visible    ${SIGN_UP_SUBMIT_BUTTON}    10s
+    Wait Until Element Is Visible    ${SIGN_UP_SUBMIT_BUTTON}    ${DEFAULT_TIMEOUT}
     ${post_submit_url}=    Assert Still On Registration Page
 
     ${email_msg}=    Get Field Validation Feedback    ${EMAIL_INPUT}
@@ -175,7 +231,7 @@ Validate Invalid Password Scenario
     Fill Registration Password Fields    ${invalid_password}
 
     Click Sign Up Submit
-    Wait Until Element Is Visible    ${SIGN_UP_SUBMIT_BUTTON}    10s
+    Wait Until Element Is Visible    ${SIGN_UP_SUBMIT_BUTTON}    ${DEFAULT_TIMEOUT}
     ${post_submit_url}=    Assert Still On Registration Page
 
     ${password_msg}=    Wait Until Keyword Succeeds    10s    500ms    Get Non Empty Field Validation Feedback    ${PASSWORD_INPUT}
