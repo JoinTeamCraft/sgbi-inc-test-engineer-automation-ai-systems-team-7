@@ -9,3 +9,4 @@ ${PASSWORD_INPUT}   xpath=//input[@type='password']
 ${SUBMIT_BUTTON}    css=button.cl-formButtonPrimary
 ${OTP_INPUT}        xpath=//input[@autocomplete='one-time-code']
 ${PROFILEICON_BUTTON}    xpath=//button[contains(.,'Continue') or contains(.,'Verify')]
+${SIGNOUT_BUTTON}        xpath=//div[contains(@class,'profile')]//button[contains(.,'sign Out') or contains(.,'Logout')]
