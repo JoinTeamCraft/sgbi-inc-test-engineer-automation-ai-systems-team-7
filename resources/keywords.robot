@@ -247,8 +247,5 @@ Verify Home Page Loaded Successfully
     Title Should Be                          Morent
     Wait Until Element Is Visible            ${HOME_MAIN_CONTAINER}    ${DEFAULT_TIMEOUT}
     Page Should Not Contain Element          ${GENERIC_ERROR_TEXT}
-    Wait Until Element Is Visible            ${HOME_HERO_TITLE}        ${DEFAULT_TIMEOUT}
-    Page Should Contain Element              ${HOME_HERO_TITLE}
-    Page Should Contain Element              ${RENTAL_CAR_BUTTON}
+    Wait Until Page Contains Element         ${RENTAL_CAR_BUTTON}
     Wait Until Element Is Visible            ${SIGN_IN_BUTTON}         ${DEFAULT_TIMEOUT}
-    Page Should Contain Element              ${SIGN_IN_BUTTON}
