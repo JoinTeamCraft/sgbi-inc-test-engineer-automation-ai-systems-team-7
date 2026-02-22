@@ -2,6 +2,7 @@
 Library    SeleniumLibrary
 Resource   locators.robot
 Resource   variables.robot
+Library    ../config/env_library.py
 
 *** Keywords ***
 
