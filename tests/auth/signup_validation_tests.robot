@@ -14,23 +14,23 @@ Registration Form Should Show Mandatory Field Validation
     Field Should Be Empty If Present    ${FULL_NAME_INPUT}
     Field Should Be Empty If Present    ${FIRST_NAME_INPUT}
     Field Should Be Empty If Present    ${LAST_NAME_INPUT}
-    Field Should Be Empty If Present    ${EMAIL_INPUT}
-    Field Should Be Empty If Present    ${PASSWORD_INPUT}
-    Field Should Be Empty If Present    ${CONFIRM_PASSWORD_INPUT}
+    Field Should Be Empty If Present    ${SIGNUP_EMAIL_INPUT}
+    Field Should Be Empty If Present    ${SIGNUP_PASSWORD_INPUT}
+    Field Should Be Empty If Present    ${SIGNUP_CONFIRM_PASSWORD_INPUT}
 
     Click Sign Up Submit
     Wait Until Element Is Visible    ${SIGN_UP_SUBMIT_BUTTON}    10s
     ${current_url}=    Get Location
     Should Contain    ${current_url}    sign-up
 
-    ${email_required}=    Field Is Required If Present    ${EMAIL_INPUT}
+    ${email_required}=    Field Is Required If Present    ${SIGNUP_EMAIL_INPUT}
     Should Be True    ${email_required}
-    ${email_msg}=    Get Validation Message If Present    ${EMAIL_INPUT}
+    ${email_msg}=    Get Validation Message If Present    ${SIGNUP_EMAIL_INPUT}
     Should Not Be Empty    ${email_msg}
 
-    ${password_required}=    Field Is Required If Present    ${PASSWORD_INPUT}
+    ${password_required}=    Field Is Required If Present    ${SIGNUP_PASSWORD_INPUT}
     Should Be True    ${password_required}
-    ${password_msg}=    Get Validation Message If Present    ${PASSWORD_INPUT}
+    ${password_msg}=    Get Validation Message If Present    ${SIGNUP_PASSWORD_INPUT}
     Should Not Be Empty    ${password_msg}
 
     ${full_name_present}=    Run Keyword And Return Status    Page Should Contain Element    ${FULL_NAME_INPUT}
@@ -41,11 +41,11 @@ Registration Form Should Show Mandatory Field Validation
         Should Not Be Empty    ${full_name_msg}
     END
 
-    ${confirm_password_present}=    Run Keyword And Return Status    Page Should Contain Element    ${CONFIRM_PASSWORD_INPUT}
+    ${confirm_password_present}=    Run Keyword And Return Status    Page Should Contain Element    ${SIGNUP_CONFIRM_PASSWORD_INPUT}
     IF    ${confirm_password_present}
-        ${confirm_password_required}=    Field Is Required If Present    ${CONFIRM_PASSWORD_INPUT}
+        ${confirm_password_required}=    Field Is Required If Present    ${SIGNUP_CONFIRM_PASSWORD_INPUT}
         Should Be True    ${confirm_password_required}
-        ${confirm_password_msg}=    Get Validation Message If Present    ${CONFIRM_PASSWORD_INPUT}
+        ${confirm_password_msg}=    Get Validation Message If Present    ${SIGNUP_CONFIRM_PASSWORD_INPUT}
         Should Not Be Empty    ${confirm_password_msg}
     END
 
