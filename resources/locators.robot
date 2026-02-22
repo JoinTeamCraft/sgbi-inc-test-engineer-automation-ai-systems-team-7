@@ -9,8 +9,8 @@ ${CONTINUE_BTN}                 xpath=//button[@data-localization-key='formButto
 ${PASSWORD_FIELD}               css=#password-field
 ${PROFILE_ICON}                 css=div[data-clerk-component$='UserButton']
 ${MANAGE_ACCOUNT}               xpath=//button[normalize-space()='Manage account']
-${ACCOUNT_MODAL}                css=div[role='dialog']
-${PROFILE_DETAIL}               xpath=//h1[normalize-space()='Profile details']
-${MANAGE_YOUR_ACCOUNT}          xpath=//p[@class='cl-internal-lzddlw']
-${SIDEBAR_PROFILE_OPTION}       xpath=//span[contains(.,'Profile')]
-${SIDEBAR_SECURITY_OPTION}      xpath=//span[contains(.,'Security')]
+${ACCOUNT_MODAL}                xpath=//div[@role='dialog' and not(@aria-hidden='true')]
+${PROFILE_DETAIL}               xpath=//div[@role='dialog']//h1[normalize-space()='Profile details']
+${MANAGE_YOUR_ACCOUNT}          xpath=//div[@role='dialog']//p[contains(.,'Manage your account')]
+${SIDEBAR_PROFILE_OPTION}       xpath=//div[@role='dialog']//span[normalize-space()='Profile']
+${SIDEBAR_SECURITY_OPTION}      xpath=//div[@role='dialog']//span[normalize-space()='Security']

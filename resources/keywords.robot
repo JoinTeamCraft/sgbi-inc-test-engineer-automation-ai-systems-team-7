@@ -3,37 +3,41 @@ Documentation     Template for reusable keywords
 Library           SeleniumLibrary
 Library           ../config/env_config.py
 Resource          locators.robot
+Resource          test_data.robot
 
 
 *** Keywords ***
 Open Browser To MoRent
-    ${url}=        Get Base Url
-    ${browser}=    Get Browser
-    Open Browser    ${url}    ${browser}
+    Open Browser    ${BASE_URL}     ${BROWSER}
     Maximize Browser Window
     Set Selenium Timeout    10s
 
 Login With Valid Credentials
-    ${email}=      Get Test Email
-    ${password}=   Get Test Password
+    ${EMAIL}=       Get Test Email
+    ${PASSWORD}=    Get Test Password
 
     Wait Until Element Is Visible    ${SIGN_IN_BUTTON}    10s
     Click Element    ${SIGN_IN_BUTTON}
 
     Wait Until Element Is Visible    ${EMAIL_IDENTIFIER_FIELD}    10s
-    Input Text    ${EMAIL_IDENTIFIER_FIELD}    ${email}
+    Clear Element Text    ${EMAIL_IDENTIFIER_FIELD}
+    Input Text    ${EMAIL_IDENTIFIER_FIELD}    ${EMAIL}
     Click Element    ${CONTINUE_BTN}
 
     Wait Until Element Is Visible    ${PASSWORD_FIELD}    10s
-    Input Text    ${PASSWORD_FIELD}    ${password}
+    Clear Element Text    ${PASSWORD_FIELD}
+    Input Text    ${PASSWORD_FIELD}    ${PASSWORD}
     Click Element    ${CONTINUE_BTN}
 
     Run Keyword And Ignore Error    Handle OTP If Present
 
 Handle OTP If Present
     ${OTP_CODE}=    Get Otp Code
-    Wait Until Element Is Visible    xpath=//h1[text()='Check your email']    5s
-    Input Text    xpath=//input[@autocomplete='one-time-code']    ${OTP_CODE}
+    ${status}=    Run Keyword And Return Status
+    ...    Wait Until Element Is Visible    xpath=//input[@autocomplete='one-time-code']    5s
+
+    Run Keyword If    ${status}
+    ...    Input Text    xpath=//input[@autocomplete='one-time-code']    ${OTP_CODE}
 
 
 Verify Login Successful
@@ -50,10 +54,11 @@ Verify Manage Account Modal Is Open
     Wait Until Element Is Visible    ${ACCOUNT_MODAL}    10s
 
     # Validate modal content
-    Page Should Contain Element      ${PROFILE_DETAIL}
-    Page Should Contain Element      ${MANAGE_YOUR_ACCOUNT}
+    Element Should Be Visible      ${PROFILE_DETAIL}
+    Element Should Be Visible      ${MANAGE_YOUR_ACCOUNT}
 
-    # Validate sidebar visibility
-    Page Should Contain Element      ${SIDEBAR_PROFILE_OPTION}
-    Page Should Contain Element      ${SIDEBAR_SECURITY_OPTION}
+    #Validate sidebar visibility
+    Element Should Be Visible      ${SIDEBAR_PROFILE_OPTION}
+    Element Should Be Visible      ${SIDEBAR_SECURITY_OPTION}
+
 
