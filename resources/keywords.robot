@@ -6,19 +6,21 @@ Resource   variables.robot
 *** Keywords ***
 
 Open MoRent Website
-    Open Browser    https://morent-car.archisacademy.com/    chrome
+    Open Browser    ${BASE_URL}    ${BROWSER}
 Open MoRent Home Page
     [Documentation]    Opens the MoRent homepage and waits until main content is visible.
     ${base_url}=    Set Variable    ${BASE_URL}
-    ${browser}=    Set Variable    chrome
-    ${timeout}=    Set Variable    10s
+    ${browser}=    Set Variable    ${BROWSER}
+    ${timeout}=    Set Variable    ${DEFAULT_TIMEOUT}
     ${browser_lower}=    Evaluate    str("""${browser}""").lower()
+    ${should_open_default}=    Set Variable    ${TRUE}
     IF    '${browser_lower}' == 'chrome'
         ${open_status}    ${open_msg}=    Run Keyword And Ignore Error    Open Chrome Browser Less Detectable    ${base_url}
-        IF    '${open_status}' == 'FAIL'
-            Open Browser    ${base_url}    ${browser}
+        IF    '${open_status}' == 'PASS'
+            ${should_open_default}=    Set Variable    ${FALSE}
         END
-    ELSE
+    END
+    IF    ${should_open_default}
         Open Browser    ${base_url}    ${browser}
     END
     Maximize Browser Window
@@ -60,7 +62,7 @@ Verify User Is Logged In
     Element Should Be Visible       ${SIGNOUT_BUTTON}
 
     Log    User login verified successfully 
-    Wait Until Element Is Visible    ${HOME_READY_TEXT}    ${timeout}
+    Wait Until Element Is Visible    ${HOME_READY_TEXT}    10s
 
 Open Chrome Browser Less Detectable
     [Arguments]    ${base_url}
@@ -160,14 +162,14 @@ Fill Registration Identity Fields
         Input Text    ${FIRST_NAME_INPUT}    Test
         Input Text    ${LAST_NAME_INPUT}    User
     END
-    Input Text    ${EMAIL_INPUT}    ${email}
+    Input Text    ${SIGNUP_EMAIL_INPUT}    ${email}
 
 Fill Registration Password Fields
     [Arguments]    ${password}
-    Input Text    ${PASSWORD_INPUT}    ${password}
-    ${confirm_password_present}=    Run Keyword And Return Status    Page Should Contain Element    ${CONFIRM_PASSWORD_INPUT}
+    Input Text    ${SIGNUP_PASSWORD_INPUT}    ${password}
+    ${confirm_password_present}=    Run Keyword And Return Status    Page Should Contain Element    ${SIGNUP_CONFIRM_PASSWORD_INPUT}
     IF    ${confirm_password_present}
-        Input Text    ${CONFIRM_PASSWORD_INPUT}    ${password}
+        Input Text    ${SIGNUP_CONFIRM_PASSWORD_INPUT}    ${password}
     END
 
 Get Field Validity If Present
@@ -240,8 +242,8 @@ Validate Invalid Email Scenario
     Wait Until Element Is Visible    ${SIGN_UP_SUBMIT_BUTTON}    10s
     ${post_submit_url}=    Assert Still On Registration Page
 
-    ${email_msg}=    Get Field Validation Feedback    ${EMAIL_INPUT}
-    ${email_valid}=    Get Field Validity If Present    ${EMAIL_INPUT}
+    ${email_msg}=    Get Field Validation Feedback    ${SIGNUP_EMAIL_INPUT}
+    ${email_valid}=    Get Field Validity If Present    ${SIGNUP_EMAIL_INPUT}
     Log    Invalid email '${invalid_email}' => url='${post_submit_url}', checkValidity=${email_valid}, validation message='${email_msg}'
     Run Keyword And Continue On Failure    Should Be True    not ${email_valid}
     Run Keyword And Continue On Failure    Should Not Be Empty    ${email_msg}
@@ -257,8 +259,8 @@ Validate Invalid Password Scenario
     Wait Until Element Is Visible    ${SIGN_UP_SUBMIT_BUTTON}    10s
     ${post_submit_url}=    Assert Still On Registration Page
 
-    ${password_msg}=    Wait Until Keyword Succeeds    10s    500ms    Get Non Empty Field Validation Feedback    ${PASSWORD_INPUT}
-    ${password_valid}=    Get Field Validity If Present    ${PASSWORD_INPUT}
+    ${password_msg}=    Wait Until Keyword Succeeds    10s    500ms    Get Non Empty Field Validation Feedback    ${SIGNUP_PASSWORD_INPUT}
+    ${password_valid}=    Get Field Validity If Present    ${SIGNUP_PASSWORD_INPUT}
     Log    Invalid password '${invalid_password}' => url='${post_submit_url}', checkValidity=${password_valid}, validation message='${password_msg}'
     Run Keyword And Continue On Failure    Should Be True    not ${password_valid}
     Run Keyword And Continue On Failure    Should Not Be Empty    ${password_msg}

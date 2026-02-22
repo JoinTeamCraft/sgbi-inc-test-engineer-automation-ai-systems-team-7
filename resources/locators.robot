@@ -17,9 +17,9 @@ ${HUMAN_VERIFY_TEXT}            xpath=//*[contains(translate(normalize-space(.),
 ${FULL_NAME_INPUT}              id=fullName-field
 ${FIRST_NAME_INPUT}             id=firstName-field
 ${LAST_NAME_INPUT}              id=lastName-field
-${EMAIL_INPUT}                  id=emailAddress-field
-${PASSWORD_INPUT}               id=password-field
-${CONFIRM_PASSWORD_INPUT}       id=confirmPassword-field
+${SIGNUP_EMAIL_INPUT}           id=emailAddress-field
+${SIGNUP_PASSWORD_INPUT}        id=password-field
+${SIGNUP_CONFIRM_PASSWORD_INPUT}    id=confirmPassword-field
 
 ${LOGIN_BUTTON}            xpath=//button[normalize-space()='Sign in']
 ${EMAIL_INPUT}             id=identifier-field
