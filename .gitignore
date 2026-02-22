@@ -3,3 +3,5 @@ __pycache__/
 output.xml
 log.html
 report.html
+.idea/
+selenium-screenshot-*.png
