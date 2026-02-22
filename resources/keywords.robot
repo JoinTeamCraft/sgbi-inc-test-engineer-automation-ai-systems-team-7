@@ -42,6 +42,6 @@ Login With Valid Credentials
     END
 
 Verify User Is Logged In
-    Wait Until Element Is Visible    ${VERIFY_BUTTON}     30s
-    Element Should Be Visible    ${VERIFY_BUTTON} 
+    Wait Until Element Is Visible    ${LOGOUT_BUTTON}     30s
+    Element Should Be Visible    ${LOGOUT_BUTTON}
     Log    User login verified successfully
