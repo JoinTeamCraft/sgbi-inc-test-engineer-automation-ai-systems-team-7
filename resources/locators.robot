@@ -1,6 +1,5 @@
 *** Settings ***
-Documentation     Template for common locators
-Library           SeleniumLibrary
+Documentation     Common locators for MoRent application
 
 *** Variables ***
 ${BASE_URL}                     https://morent-car.archisacademy.com/
@@ -21,3 +20,11 @@ ${LAST_NAME_INPUT}              id=lastName-field
 ${EMAIL_INPUT}                  id=emailAddress-field
 ${PASSWORD_INPUT}               id=password-field
 ${CONFIRM_PASSWORD_INPUT}       id=confirmPassword-field
+
+${LOGIN_BUTTON}            xpath=//button[normalize-space()='Sign in']
+${EMAIL_INPUT}             id=identifier-field
+${PASSWORD_INPUT}          xpath=//input[@type='password']
+${SUBMIT_BUTTON}           css=button.cl-formButtonPrimary
+${OTP_INPUT}               xpath=//input[@autocomplete='one-time-code']
+${LOGIN_ERROR_MESSAGE}     xpath=//div[contains(@class,'error') or contains(@class,'cl-formFieldErrorText')]
+${SIGNOUT_BUTTON}          xpath=//div[contains(@class,'profile')]//button[contains(.,'sign Out') or contains(.,'Logout')]

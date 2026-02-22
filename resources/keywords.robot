@@ -1,11 +1,12 @@
 *** Settings ***
-Documentation     Template for reusable keywords
-Library           SeleniumLibrary
-Library           ../config/env_config.py
-Library           ../python_lib/validators.py
-Resource          locators.robot
+Library    SeleniumLibrary
+Resource   locators.robot
+Resource   variables.robot
 
 *** Keywords ***
+
+Open MoRent Website
+    Open Browser    https://morent-car.archisacademy.com/    chrome
 Open MoRent Home Page
     [Documentation]    Opens the MoRent homepage and waits until main content is visible.
     ${base_url}=    Get Base Url
@@ -21,6 +22,44 @@ Open MoRent Home Page
         Open Browser    ${base_url}    ${browser}
     END
     Maximize Browser Window
+    Set Selenium Implicit Wait    10s
+    Wait Until Element Is Visible    ${LOGIN_BUTTON}    20s
+
+Go To Login Page
+    Click Element    ${LOGIN_BUTTON}
+    Wait Until Element Is Visible    ${EMAIL_INPUT}    20s
+
+Login With Valid Credentials
+    Wait Until Element Is Visible    ${EMAIL_INPUT}    20s
+    Clear Element Text    ${EMAIL_INPUT}
+    Input Text    ${EMAIL_INPUT}    ${VALID_EMAIL}
+    Press Keys    ${EMAIL_INPUT}    TAB
+
+    Wait Until Element Is Visible    ${SUBMIT_BUTTON}    20s
+    Click Element    ${SUBMIT_BUTTON}
+
+    Wait Until Element Is Visible    ${PASSWORD_INPUT}    30s
+    Clear Element Text    ${PASSWORD_INPUT}
+    Input Password    ${PASSWORD_INPUT}    ${VALID_PASSWORD}
+
+    Wait Until Element Is Enabled    ${SUBMIT_BUTTON}    20s
+    Click Element    ${SUBMIT_BUTTON}
+
+    # OTP Handling (Optional)
+    ${otp_visible}=    Run Keyword And Return Status
+    ...    Wait Until Element Is Visible    ${OTP_INPUT}    10s
+
+    IF    ${otp_visible}
+        Clear Element Text    ${OTP_INPUT}
+        Input Text    ${OTP_INPUT}    ${OTP_CODE}
+        Press Keys    ${OTP_INPUT}    ENTER
+    END
+
+Verify User Is Logged In
+    Wait Until Element Is Visible    ${SIGNOUT_BUTTON}       20s
+    Element Should Be Visible       ${SIGNOUT_BUTTON}
+
+    Log    User login verified successfully 
     Wait Until Keyword Succeeds    60s    5s    Wait Until Element Is Visible    ${HOME_READY_TEXT}    ${timeout}
 
 Open Chrome Browser Less Detectable

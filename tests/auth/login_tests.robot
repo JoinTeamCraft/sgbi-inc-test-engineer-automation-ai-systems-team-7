@@ -1,10 +1,17 @@
 *** Settings ***
-Documentation     Template for Auth tests
-Resource          ../../resources/keywords.robot
-Resource          ../../resources/locators.robot
+Resource    ../../resources/keywords.robot
+
+Suite Setup       Open MoRent Website
+Suite Teardown    Close Browser
 
 *** Test Cases ***
-Login Test Template
-    [Documentation]    Placeholder for login test
-    [Tags]    auth
-    Log    Implement login test here
+
+Verify Login With Valid Credentials
+    Go To Login Page
+    Login With Valid Credentials
+    Verify User Is Logged In
+
+Verify Login With Invalid Credentials
+    Go To Login Page
+    Login With Invalid Credentials
+    Verify Login Failed
