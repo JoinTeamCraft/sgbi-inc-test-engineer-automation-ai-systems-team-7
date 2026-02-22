@@ -8,4 +8,5 @@ ${EMAIL_INPUT}      id=identifier-field
 ${PASSWORD_INPUT}   xpath=//input[@type='password']
 ${SUBMIT_BUTTON}    css=button.cl-formButtonPrimary
 ${OTP_INPUT}        xpath=//input[@autocomplete='one-time-code']
+${PROFILEICON_BUTTON}    xpath=//div[contains(@class,'profile')] | //img[contains(@class,'avatar')]
 ${SIGNOUT_BUTTON}    xpath=//div[contains(@class,'profile')]//button[contains(.,'sign Out') or contains(.,'Logout')]
