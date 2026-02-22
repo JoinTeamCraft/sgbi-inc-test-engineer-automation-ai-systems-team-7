@@ -1,23 +1,41 @@
 import os
 
-
 class EnvConfig:
-    ROBOT_LIBRARY_SCOPE = 'GLOBAL'
+    """Environment configuration helper exposed to Robot Framework."""
 
-    def __init__(self):
-        self.base_url = os.getenv("BASE_URL", "https://morent-car.archisacademy.com/")
-        self.browser = os.getenv("BROWSER", "chrome")
-        self.default_timeout = os.getenv("DEFAULT_TIMEOUT", "20s")
-        self.headless = os.getenv("HEADLESS", "false").lower() == "true"
+    ROBOT_LIBRARY_SCOPE = "GLOBAL"
+
+    def get_config_value(self, key, default=""):
+        """Return a configuration value from environment variables."""
+        return os.getenv(key, default)
 
     def get_base_url(self):
-        return self.base_url
+        """Return AUT base URL, with sensible default for this project."""
+        return os.getenv("MORENT_BASE_URL", "https://morent-car.archisacademy.com/")
 
     def get_browser(self):
-        return self.browser
+        """Return browser name used by SeleniumLibrary."""
+        return os.getenv("BROWSER", "chrome")
 
     def get_default_timeout(self):
-        return self.default_timeout
+        """Return default wait timeout for Robot keywords."""
+        return os.getenv("DEFAULT_TIMEOUT", "20s")
 
-    def is_headless(self):
-        return self.headless
+
+_env = EnvConfig()
+
+
+def get_config_value(key, default=""):
+    return _env.get_config_value(key, default)
+
+
+def get_base_url():
+    return _env.get_base_url()
+
+
+def get_browser():
+    return _env.get_browser()
+
+
+def get_default_timeout():
+    return _env.get_default_timeout()
