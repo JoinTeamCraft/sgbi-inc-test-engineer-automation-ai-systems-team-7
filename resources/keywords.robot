@@ -44,4 +44,8 @@ Login With Valid Credentials
 Verify User Is Logged In
     Wait Until Element Is Visible    ${PROFILEICON_BUTTON}     30s
     Element Should Be Visible    ${PROFILEICON_BUTTON}
-    Log    User login verified successfully
+    
+    Wait Until Element Is Visible    ${SIGNOUT_BUTTON}       20s
+    Element Should Be Visible       ${SIGNOUT_BUTTON}
+
+    Log    User login verified successfully using profile and signout elements
