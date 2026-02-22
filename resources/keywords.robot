@@ -270,6 +270,7 @@ Build Repeatable Registration Email
     [Documentation]    Uses a fixed registration email.
     RETURN    ${base_email}
 
+
 Fill Valid Registration Details
     [Arguments]    ${email}
     Fill Registration Identity Fields    ${email}
@@ -322,3 +323,60 @@ Redirect Should Be Login Or Home
     ${is_home}=    Evaluate    'morent-car.archisacademy.com' in """${current_url}""" and 'sign-up' not in """${current_url}""" and 'verify' not in """${current_url}"""
     ${is_login}=    Evaluate    'sign-in' in """${current_url}""" or 'login' in """${current_url}"""
     Should Be True    ${is_home} or ${is_login}
+
+Verify Home Page Loaded Successfully
+    [Documentation]    Validates that the MoRent home page loads without errors and main content is visible.
+    Location Should Be                       ${BASE_URL}
+    Title Should Be                          Morent
+    Wait Until Element Is Visible            ${HOME_MAIN_CONTAINER}    ${DEFAULT_TIMEOUT}
+    Page Should Not Contain Element          ${GENERIC_ERROR_TEXT}
+    Wait Until Page Contains Element         ${RENTAL_CAR_BUTTON}
+    Wait Until Element Is Visible            ${SIGN_IN_BUTTON}         ${DEFAULT_TIMEOUT}
+
+Verify Header Section Visibility
+    [Documentation]    Validates header section and all primary elements are visible.
+
+    Wait Until Element Is Visible            ${HEADER_SECTION}    ${DEFAULT_TIMEOUT}
+    Element Should Be Visible                ${APP_LOGO}
+    Element Should Be Visible                ${HEADER_LEFT}
+    Element Should Be Visible                ${HEADER_RIGHT}
+    Element Should Be Visible                ${SEARCH_INPUT}
+    Element Should Be Visible                ${FAVOURITE_ICON}
+    Element Should Be Visible                ${NOTIFICATION_ICON}
+    Wait Until Element Is Visible            ${SIGN_IN_BUTTON}         ${DEFAULT_TIMEOUT}
+
+
+Verify Search Functionality
+    Clear Element Text                    ${SEARCH_INPUT}
+    Input Text                            ${SEARCH_INPUT}     Nissan
+    Wait Until Element Is Visible         ${SEARCH_RESULT}    ${DEFAULT_TIMEOUT}
+
+    ${selected_text}=                     Get Text    ${SEARCH_RESULT}
+    Click Element                         ${SEARCH_RESULT}
+
+    Wait Until Element Is Visible         ${SEARCHED_CAR}         ${DEFAULT_TIMEOUT}
+
+
+Verify Favourite Navigation
+    Click Element    ${FAVOURITE_ICON}
+    Wait Until Location Contains    favourites    ${DEFAULT_TIMEOUT}
+    Page Should Contain    Please Sign In
+
+Verify Orders Navigation
+    Click Element    ${NOTIFICATION_ICON}
+    Wait Until Location Contains    orders    ${DEFAULT_TIMEOUT}
+    Page Should Contain    Please Sign In
+
+Verify Sign In Navigation
+    Click Element    ${SIGN_IN_BUTTON}
+    Wait Until Location Contains    sign-in    ${DEFAULT_TIMEOUT}
+    Wait Until Element Is Visible    ${SIGNIN_CONTAINER}       ${DEFAULT_TIMEOUT}
+
+
+Verify Header Navigation Functionality
+    [Documentation]    Validates header navigation functionality
+    Verify Search Functionality
+    Verify Favourite Navigation
+    Verify Orders Navigation
+    Verify Sign In Navigation
+
