@@ -140,6 +140,12 @@ Get Field Validation Feedback
     ${custom_msg}=    Get Custom Validation Message If Present    ${locator}
     RETURN    ${custom_msg}
 
+Get Non Empty Field Validation Feedback
+    [Arguments]    ${locator}
+    ${message}=    Get Field Validation Feedback    ${locator}
+    Should Not Be Empty    ${message}
+    RETURN    ${message}
+
 Assert Still On Registration Page
     ${post_submit_url}=    Get Location
     Should Contain    ${post_submit_url}    ${SIGN_UP_URL_FRAGMENT}
@@ -170,10 +176,10 @@ Validate Invalid Password Scenario
 
     Click Sign Up Submit
     Wait Until Element Is Visible    ${SIGN_UP_SUBMIT_BUTTON}    10s
-    Sleep    3s
     ${post_submit_url}=    Assert Still On Registration Page
 
-    ${password_msg}=    Get Field Validation Feedback    ${PASSWORD_INPUT}
+    ${password_msg}=    Wait Until Keyword Succeeds    10s    500ms    Get Non Empty Field Validation Feedback    ${PASSWORD_INPUT}
     ${password_valid}=    Get Field Validity If Present    ${PASSWORD_INPUT}
     Log    Invalid password '${invalid_password}' => url='${post_submit_url}', checkValidity=${password_valid}, validation message='${password_msg}'
+    Run Keyword And Continue On Failure    Should Be True    not ${password_valid}
     Run Keyword And Continue On Failure    Should Not Be Empty    ${password_msg}
