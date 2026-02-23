@@ -27,3 +27,21 @@ ${SUBMIT_BUTTON}           css=button.cl-formButtonPrimary
 ${OTP_INPUT}               xpath=//input[@autocomplete='one-time-code']
 ${LOGIN_ERROR_MESSAGE}     xpath=//div[contains(@class,'error') or contains(@class,'cl-formFieldErrorText')]
 ${SIGNOUT_BUTTON}          xpath=//div[contains(@class,'profile')]//button[contains(.,'sign Out') or contains(.,'Logout')]
+
+
+${PROFILE_ICON}               xpath=//button[contains(@class,'cl-userButtonTrigger')]
+${MANAGE_ACCOUNT_BUTTON}      xpath=//button[normalize-space()='Manage account']
+
+${CLERK_IFRAME}               xpath=//iframe[contains(@src,'accounts')]
+
+${UPDATE_PROFILE_BUTTON}      xpath=//button[normalize-space()='Update profile']
+${UPLOAD_BUTTON}              xpath=//button[normalize-space()='Upload']
+${REMOVE_BUTTON}              xpath=//button[normalize-space()='Remove']
+${SAVE_BUTTON}                xpath=//button[normalize-space()='Save']
+
+${PROFILE_IMAGE}              xpath=//img[contains(@class,'cl-avatarImage')]
+${HEADER_AVATAR}              xpath=//img[contains(@class,'cl-userButtonAvatar')]
+${UPLOAD_BUTTON}              xpath=//button[normalize-space()='Upload']
+${FILE_INPUT}                 xpath=//input[@type='file']
+${HEADER_PROFILE_AVATAR}      css=img.cl-userButtonAvatarImage
+${PROFILE_MODAL_CLOSE}    xpath=//svg[@aria-hidden='true']/ancestor::button

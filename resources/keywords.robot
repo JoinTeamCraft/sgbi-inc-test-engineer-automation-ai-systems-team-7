@@ -322,3 +322,46 @@ Redirect Should Be Login Or Home
     ${is_home}=    Evaluate    'morent-car.archisacademy.com' in """${current_url}""" and 'sign-up' not in """${current_url}""" and 'verify' not in """${current_url}"""
     ${is_login}=    Evaluate    'sign-in' in """${current_url}""" or 'login' in """${current_url}"""
     Should Be True    ${is_home} or ${is_login}
+
+Setup And Login
+    Open MoRent Home Page
+    Go To Login Page
+    Login With Valid Credentials
+
+Open Update Profile Modal
+    Click Element    ${PROFILE_ICON}
+    Wait Until Element Is Visible    ${MANAGE_ACCOUNT_BUTTON}    10s
+    Click Element    ${MANAGE_ACCOUNT_BUTTON}
+
+    Wait Until Element Is Visible    ${UPDATE_PROFILE_BUTTON}    10s
+    Click Element    ${UPDATE_PROFILE_BUTTON}
+
+Upload New Profile Picture
+    ${old_src}=    Get Element Attribute    ${PROFILE_IMAGE}    src
+
+    Choose File    ${FILE_INPUT}    ${EXECDIR}/resources/test_data/profile_test.png
+
+    Upload New Profile Picture
+    ${image_path}=    Set Variable    ${CURDIR}/resources/profile_test.png
+    Choose File    xpath=//input[@type='file']    ${image_path}
+
+    Sleep    3s
+
+    Execute Javascript    document.querySelector("input[type='file']").style.display="block"
+    Choose File    xpath=//input[@type='file']    ${image_path}
+
+    Sleep    3s
+
+    Click Element    ${PROFILE_MODAL_CLOSE}
+    Sleep    2s
+
+    Click Element    ${PROFILE_ICON}
+    Wait Until Element Is Visible    ${HEADER_PROFILE_AVATAR}    10s
+    Element Should Be Visible        ${HEADER_PROFILE_AVATAR}
+
+
+Verify Header Avatar Updated
+    Unselect Frame
+    Click Element    ${PROFILE_ICON}
+    Wait Until Element Is Visible    ${HEADER_AVATAR}    10s
+    Element Should Be Visible    ${HEADER_AVATAR}
