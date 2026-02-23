@@ -322,3 +322,13 @@ Redirect Should Be Login Or Home
     ${is_home}=    Evaluate    'morent-car.archisacademy.com' in """${current_url}""" and 'sign-up' not in """${current_url}""" and 'verify' not in """${current_url}"""
     ${is_login}=    Evaluate    'sign-in' in """${current_url}""" or 'login' in """${current_url}"""
     Should Be True    ${is_home} or ${is_login}
+
+Navigate To Account Page
+    Click Element    ${PROFILE_ICON}
+    Wait Until Element Is Visible    ${UPDATE_PROFILE_BUTTON}    10s
+    Click Element    ${UPDATE_PROFILE_BUTTON}
+    Element Should Be Visible    ${PROFILE_IMAGE}
+    Element Should Be Visible    ${PROFILE_NAME}
+    Element Should Be Visible    ${PROFILE_EMAIL}
+    Wait Until Element Is Visible    ${PROFILE_EMAIL}    10s
+    Element Should Be Visible    ${EMAIL_STATUS_LABEL}

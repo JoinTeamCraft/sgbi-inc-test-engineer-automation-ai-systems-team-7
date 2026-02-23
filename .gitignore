@@ -1,0 +1,10 @@
+# Robot Framework output
+log.html
+report.html
+output.xml
+
+# Screenshots
+*.png
+
+# IDE
+.idea/

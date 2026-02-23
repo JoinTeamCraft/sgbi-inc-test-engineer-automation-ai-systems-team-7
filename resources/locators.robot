@@ -27,3 +27,11 @@ ${SUBMIT_BUTTON}           css=button.cl-formButtonPrimary
 ${OTP_INPUT}               xpath=//input[@autocomplete='one-time-code']
 ${LOGIN_ERROR_MESSAGE}     xpath=//div[contains(@class,'error') or contains(@class,'cl-formFieldErrorText')]
 ${SIGNOUT_BUTTON}          xpath=//div[contains(@class,'profile')]//button[contains(.,'sign Out') or contains(.,'Logout')]
+
+
+${PROFILE_ICON}              css=button.cl-userButtonTrigger
+${PROFILE_IMAGE}             css=img.cl-userPreviewAvatarImage
+${PROFILE_NAME}              css=span.cl-userPreviewMainIdentifierText
+${PROFILE_EMAIL}             xpath=//p[contains(text(),'@')]
+${EMAIL_STATUS_LABEL}        css=span.cl-badge[data-localization-key="badge__primary"]
+${UPDATE_PROFILE_BUTTON}     css=button.cl-userButtonPopoverActionButton__manageAccount
