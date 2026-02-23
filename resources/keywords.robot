@@ -347,14 +347,25 @@ Verify Header Section Visibility
 
 
 Verify Search Functionality
-    Clear Element Text                    ${SEARCH_INPUT}
-    Input Text                            ${SEARCH_INPUT}     Nissan
-    Wait Until Element Is Visible         ${SEARCH_RESULT}    ${DEFAULT_TIMEOUT}
+    [Arguments]    ${search_term}
 
-    ${selected_text}=                     Get Text    ${SEARCH_RESULT}
-    Click Element                         ${SEARCH_RESULT}
+    Clear Element Text              ${SEARCH_INPUT}
+    Input Text                      ${SEARCH_INPUT}    ${search_term}
 
-    Wait Until Element Is Visible         ${SEARCHED_CAR}         ${DEFAULT_TIMEOUT}
+    Wait Until Element Is Visible   ${SEARCH_RESULT}    ${DEFAULT_TIMEOUT}
+
+    ${selected_text}=    Get Text    ${SEARCH_RESULT}
+
+    Should Contain    ${selected_text}    ${search_term}
+
+    Click Element    ${SEARCH_RESULT}
+
+    Wait Until Location Contains    rental-cars    ${DEFAULT_TIMEOUT}
+
+    ${page_title}=    Get Text    xpath=//h1
+    Should Contain    ${page_title}    ${search_term}
+
+    Go To    ${BASE_URL}
 
 
 Verify Favourite Navigation
@@ -375,7 +386,7 @@ Verify Sign In Navigation
 
 Verify Header Navigation Functionality
     [Documentation]    Validates header navigation functionality
-    Verify Search Functionality
+    Verify Search Functionality    Nissa
     Verify Favourite Navigation
     Verify Orders Navigation
     Verify Sign In Navigation

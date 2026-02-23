@@ -49,9 +49,8 @@ ${HEADER_SECTION}               css=header
 ${APP_LOGO}                     xpath=//a[contains(normalize-space(),'MORENT')]
 ${HEADER_LEFT}                  css=div[class^='_header-left']
 ${HEADER_RIGHT}                 css=div[class^='_header-right']
-${SEARCH_INPUT}                 xpath=//input[@id='rc_select_0']
+${SEARCH_INPUT}                 css=input[type*='search']
 ${SEARCH_RESULT}                xpath=//div[contains(@class,'ant-select-item-option-content')]
-${SEARCHED_CAR}                 xpath=//h1[normalize-space()='Nissan GT - R']
 ${FAVOURITE_ICON}               css=button[aria-label='Favorite Icon']
 ${NOTIFICATION_ICON}            css=button[aria-label='Notification Icon']
 
