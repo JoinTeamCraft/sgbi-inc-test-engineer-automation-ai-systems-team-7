@@ -54,3 +54,5 @@ ${SEARCH_RESULT}                xpath=//div[contains(@class,'ant-select-item-opt
 ${FAVOURITE_ICON}               css=button[aria-label='Favorite Icon']
 ${NOTIFICATION_ICON}            css=button[aria-label='Notification Icon']
 
+${SHOW_PASSWORD}                css=button.cl-formFieldInputShowPasswordButton
+
