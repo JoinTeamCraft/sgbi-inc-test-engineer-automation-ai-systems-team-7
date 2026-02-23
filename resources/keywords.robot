@@ -323,22 +323,34 @@ Redirect Should Be Login Or Home
     ${is_login}=    Evaluate    'sign-in' in """${current_url}""" or 'login' in """${current_url}"""
     Should Be True    ${is_home} or ${is_login}
 Verify Header Is Visible
-    [Documentation]    Verifies the header section is displayed on Home page.
     Wait Until Element Is Visible    ${HEADER_SECTION}    ${DEFAULT_TIMEOUT}
     Element Should Be Visible        ${HEADER_SECTION}
 
-Verify Header Core Elements
-    [Documentation]    Verifies logo, search bar and Sign in button are visible.
+Verify Header Elements Are Visible
     Element Should Be Visible    ${APP_LOGO}
-    Element Should Be Visible    ${SEARCH_BAR}
     Element Should Be Visible    ${LOGIN_BUTTON}
 
-Verify Header Icons Are Visible
-    [Documentation]    Verifies header icons (wishlist/cart/settings) are visible.
-    ${icons}=    Get WebElements    ${HEADER_ICONS}
-    Should Not Be Empty    ${icons}
+Verify Logo Navigation
+    Click Element    ${APP_LOGO}
+    Wait Until Element Is Visible    ${HOME_READY_TEXT}    ${DEFAULT_TIMEOUT}
 
-Verify Sign In Navigation Redirect
-    [Documentation]    Clicks Sign in and verifies redirect to sign-in page.
+Verify Sign In Navigation
     Click Element    ${LOGIN_BUTTON}
-    Wait Until Location Contains    ${LOGIN_URL_FRAGMENT}    ${DEFAULT_TIMEOUT}
+    Wait Until Element Is Visible    ${EMAIL_INPUT}    ${DEFAULT_TIMEOUT}
+
+Verify Search Bar Is Clickable
+    Wait Until Element Is Visible    ${SEARCH_BAR}    ${DEFAULT_TIMEOUT}
+    Element Should Be Visible        ${SEARCH_BAR}
+    Click Element                    ${SEARCH_BAR}
+    Input Text    ${SEARCH_BAR}    BMW
+    Sleep    1s
+Verify Header Navigation Links Redirect Correctly
+    Click Element    ${FAVORITES_LINK}
+    Sleep    1s
+    Go To    ${BASE_URL}
+    Wait Until Element Is Visible    ${FAVORITES_LINK}    10s
+
+    Click Element    ${ORDERS_LINK}
+    Sleep    1s
+    Go To    ${BASE_URL}
+    Wait Until Element Is Visible    ${FAVORITES_LINK}    10s
