@@ -322,3 +322,51 @@ Redirect Should Be Login Or Home
     ${is_home}=    Evaluate    'morent-car.archisacademy.com' in """${current_url}""" and 'sign-up' not in """${current_url}""" and 'verify' not in """${current_url}"""
     ${is_login}=    Evaluate    'sign-in' in """${current_url}""" or 'login' in """${current_url}"""
     Should Be True    ${is_home} or ${is_login}
+Verify Header Is Visible
+    Wait Until Element Is Visible    ${HEADER_SECTION}    ${DEFAULT_TIMEOUT}
+    Element Should Be Visible        ${HEADER_SECTION}
+
+Verify Header Elements Are Visible
+    Element Should Be Visible    ${APP_LOGO}
+    Element Should Be Visible    ${LOGIN_BUTTON}
+
+Verify Logo Navigation
+    Click Element    ${APP_LOGO}
+    Wait Until Element Is Visible    ${HOME_READY_TEXT}    ${DEFAULT_TIMEOUT}
+
+Verify Sign In Navigation
+    Click Element    ${LOGIN_BUTTON}
+    Wait Until Element Is Visible    ${EMAIL_INPUT}    ${DEFAULT_TIMEOUT}
+
+Verify Search Bar Is Clickable
+    Wait Until Element Is Visible    ${SEARCH_BAR}    ${DEFAULT_TIMEOUT}
+    Element Should Be Visible        ${SEARCH_BAR}
+    Click Element                    ${SEARCH_BAR}
+    Input Text    ${SEARCH_BAR}    BMW
+    Sleep    1s
+Verify Header Navigation Links Redirect Correctly
+    Click Element    ${FAVORITES_LINK}
+    Wait Until Location Contains    favourite    10s
+    Go To    ${BASE_URL}
+    Wait Until Element Is Visible    ${FAVORITES_LINK}    10s
+
+    Click Element    ${ORDERS_LINK}
+    Wait Until Location Contains    order    10s
+    Go To    ${BASE_URL}
+    Wait Until Element Is Visible    ${FAVORITES_LINK}    10s
+
+Verify Header Register Navigation
+    Element Should Be Visible    ${REGISTER_BUTTON}
+
+Verify Registration Page Navigation
+    Click Element    ${REGISTER_BUTTON}
+    Wait Until Location Contains    sign-up    10s
+    Wait Until Element Is Visible   ${SIGN_UP_HEADING}    10s
+
+Verify Registration Form Fields Are Visible
+    Element Should Be Visible    ${FIRST_NAME_INPUT}
+    Element Should Be Visible    ${LAST_NAME_INPUT}
+    Element Should Be Visible    ${SIGNUP_EMAIL_INPUT}
+    Element Should Be Visible    ${SIGNUP_PASSWORD_INPUT}
+    Element Should Be Visible    ${SIGN_UP_SUBMIT_BUTTON}
+
