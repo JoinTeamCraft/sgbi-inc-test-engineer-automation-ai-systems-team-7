@@ -33,6 +33,5 @@ ${HEADER_SECTION}     xpath=//header[contains(@class,'_header_')]
 ${FAVORITES_LINK}    css=a[href*="favourite"]
 ${ORDERS_LINK}       css=a[href*="order"]
 ${SETTINGS_LINK}     css=a[href*="setting"]
-${APP_LOGO}          xpath=//span[contains(@class,'_logo_') and normalize-space()='MORENT']
 ${LOGIN_BUTTON}      xpath=//button[normalize-space()='Sign in']
-${SEARCH_BAR}    id=rc_select_0
+${REGISTER_BUTTON}     xpath=//a[text()='Sign up']

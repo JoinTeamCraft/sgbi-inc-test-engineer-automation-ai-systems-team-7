@@ -346,11 +346,15 @@ Verify Search Bar Is Clickable
     Sleep    1s
 Verify Header Navigation Links Redirect Correctly
     Click Element    ${FAVORITES_LINK}
-    Sleep    1s
+    Wait Until Location Contains    favourite    10s
     Go To    ${BASE_URL}
     Wait Until Element Is Visible    ${FAVORITES_LINK}    10s
 
     Click Element    ${ORDERS_LINK}
-    Sleep    1s
+    Wait Until Location Contains    order    10s
     Go To    ${BASE_URL}
     Wait Until Element Is Visible    ${FAVORITES_LINK}    10s
+
+Verify Header Register Navigation
+    Element Should Be Visible    ${REGISTER_BUTTON}
+
