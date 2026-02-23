@@ -20,7 +20,6 @@ ${SIGNUP_EMAIL_INPUT}           id=emailAddress-field
 ${SIGNUP_PASSWORD_INPUT}        id=password-field
 ${SIGNUP_CONFIRM_PASSWORD_INPUT}    id=confirmPassword-field
 
-${LOGIN_BUTTON}            xpath=//button[normalize-space()='Sign in']
 ${EMAIL_INPUT}             id=identifier-field
 ${PASSWORD_INPUT}          xpath=//input[@type='password']
 ${SUBMIT_BUTTON}           css=button.cl-formButtonPrimary

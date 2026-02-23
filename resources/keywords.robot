@@ -358,3 +358,15 @@ Verify Header Navigation Links Redirect Correctly
 Verify Header Register Navigation
     Element Should Be Visible    ${REGISTER_BUTTON}
 
+Verify Registration Page Navigation
+    Click Element    ${REGISTER_BUTTON}
+    Wait Until Location Contains    sign-up    10s
+    Wait Until Element Is Visible   ${SIGN_UP_HEADING}    10s
+
+Verify Registration Form Fields Are Visible
+    Element Should Be Visible    ${FIRST_NAME_INPUT}
+    Element Should Be Visible    ${LAST_NAME_INPUT}
+    Element Should Be Visible    ${SIGNUP_EMAIL_INPUT}
+    Element Should Be Visible    ${SIGNUP_PASSWORD_INPUT}
+    Element Should Be Visible    ${SIGN_UP_SUBMIT_BUTTON}
+
