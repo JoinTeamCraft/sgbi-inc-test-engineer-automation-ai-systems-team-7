@@ -322,3 +322,23 @@ Redirect Should Be Login Or Home
     ${is_home}=    Evaluate    'morent-car.archisacademy.com' in """${current_url}""" and 'sign-up' not in """${current_url}""" and 'verify' not in """${current_url}"""
     ${is_login}=    Evaluate    'sign-in' in """${current_url}""" or 'login' in """${current_url}"""
     Should Be True    ${is_home} or ${is_login}
+Verify Header Is Visible
+    [Documentation]    Verifies the header section is displayed on Home page.
+    Wait Until Element Is Visible    ${HEADER_SECTION}    ${DEFAULT_TIMEOUT}
+    Element Should Be Visible        ${HEADER_SECTION}
+
+Verify Header Core Elements
+    [Documentation]    Verifies logo, search bar and Sign in button are visible.
+    Element Should Be Visible    ${APP_LOGO}
+    Element Should Be Visible    ${SEARCH_BAR}
+    Element Should Be Visible    ${LOGIN_BUTTON}
+
+Verify Header Icons Are Visible
+    [Documentation]    Verifies header icons (wishlist/cart/settings) are visible.
+    ${icons}=    Get WebElements    ${HEADER_ICONS}
+    Should Not Be Empty    ${icons}
+
+Verify Sign In Navigation Redirect
+    [Documentation]    Clicks Sign in and verifies redirect to sign-in page.
+    Click Element    ${LOGIN_BUTTON}
+    Wait Until Location Contains    ${LOGIN_URL_FRAGMENT}    ${DEFAULT_TIMEOUT}

@@ -27,3 +27,7 @@ ${SUBMIT_BUTTON}           css=button.cl-formButtonPrimary
 ${OTP_INPUT}               xpath=//input[@autocomplete='one-time-code']
 ${LOGIN_ERROR_MESSAGE}     xpath=//div[contains(@class,'error') or contains(@class,'cl-formFieldErrorText')]
 ${SIGNOUT_BUTTON}          xpath=//div[contains(@class,'profile')]//button[contains(.,'sign Out') or contains(.,'Logout')]
+${HEADER_SECTION}        xpath=//header
+${APP_LOGO}              xpath=//header//*[contains(text(),'MORENT')]
+${SEARCH_BAR}            xpath=//input[@placeholder='Search something here']
+${HEADER_ICONS}          xpath=//header//button//*[name()='svg']
