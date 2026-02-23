@@ -24,7 +24,6 @@ Open MoRent Home Page
         Open Browser    ${base_url}    ${browser}
     END
     Maximize Browser Window
-    Set Selenium Implicit Wait    ${DEFAULT_TIMEOUT}
     Wait Until Element Is Visible    ${LOGIN_BUTTON}    ${DEFAULT_TIMEOUT}
 
 Go To Login Page
@@ -380,8 +379,21 @@ Verify Orders Navigation
 
 Verify Sign In Navigation
     Click Element    ${SIGN_IN_BUTTON}
-    Wait Until Location Contains    sign-in    ${DEFAULT_TIMEOUT}
+    ${url}=    Get Location
+    Should Contain    ${url}         accounts.dev
+    Should Contain    ${url}         sign-in
     Wait Until Element Is Visible    ${SIGNIN_CONTAINER}       ${DEFAULT_TIMEOUT}
+
+
+Verify Sign Up Navigation and UI presence
+    Click Element                    ${SIGN_UP_LINK}
+    Wait Until Element Is Visible    ${SIGN_UP_HEADING}    ${DEFAULT_TIMEOUT}
+    Element Should Be Visible        ${FIRST_NAME_INPUT}
+    Element Should Be Visible        ${LAST_NAME_INPUT}
+    Element Should Be Visible        ${SIGNUP_EMAIL_INPUT}
+    Element Should Be Visible        ${SIGNUP_PASSWORD_INPUT}
+    Element Should Be Visible        ${SHOW_PASSWORD}
+    Element Should Be Visible        ${SUBMIT_BUTTON}
 
 
 Verify Header Navigation Functionality
