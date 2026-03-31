@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 7.4.1 (Python 3.11.9 on win32)" generated="2026-02-22T23:30:34.405000" rpa="false" schemaversion="5">
+<suite id="s1" name="File Upload" source="C:\Users\ASUS\PycharmProjects\robot-automation\tests\file_upload.robot">
+<test id="s1-t1" name="Verify Update Profile And Upload Lifecycle" line="31">
+<kw name="Initialize Browser" type="SETUP">
+<kw name="Open Browser" owner="SeleniumLibrary">
+<msg time="2026-02-22T23:30:34.623573" level="INFO">Opening browser 'chrome' to base url 'https://morent-car.archisacademy.com/'.</msg>
+<arg>${URL}</arg>
+<arg>${BROWSER}</arg>
+<doc>Opens a new browser instance to the optional ``url``.</doc>
+<status status="PASS" start="2026-02-22T23:30:34.623573" elapsed="1.893916"/>
+</kw>
+<kw name="Maximize Browser Window" owner="SeleniumLibrary">
+<doc>Maximizes current browser window.</doc>
+<status status="PASS" start="2026-02-22T23:30:36.517489" elapsed="0.023748"/>
+</kw>
+<kw name="Set Selenium Speed" owner="SeleniumLibrary">
+<arg>0.3s</arg>
+<doc>Sets the delay that is waited after each Selenium command.</doc>
+<status status="PASS" start="2026-02-22T23:30:36.542260" elapsed="0.000000"/>
+</kw>
+<status status="PASS" start="2026-02-22T23:30:34.623573" elapsed="1.918687"/>
+</kw>
+<kw name="Perform Login">
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>${SIGN_IN_BTN}</arg>
+<arg>20s</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2026-02-22T23:30:36.543615" elapsed="2.652677"/>
+</kw>
+<kw name="Click Element" owner="SeleniumLibrary">
+<msg time="2026-02-22T23:30:39.196292" level="INFO">Clicking element 'xpath=//button[contains(text(),'Sign in')]'.</msg>
+<arg>${SIGN_IN_BTN}</arg>
+<doc>Click the element identified by ``locator``.</doc>
+<status status="PASS" start="2026-02-22T23:30:39.196292" elapsed="1.495594"/>
+</kw>
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>${EMAIL_FIELD}</arg>
+<arg>20s</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2026-02-22T23:30:40.691886" elapsed="1.127079"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2026-02-22T23:30:41.818965" level="INFO">Typing text 'doe+clerk_test@example.com' into text field 'id=identifier-field'.</msg>
+<arg>${EMAIL_FIELD}</arg>
+<arg>${user}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2026-02-22T23:30:41.818965" elapsed="1.163011"/>
+</kw>
+<kw name="Click Element" owner="SeleniumLibrary">
+<msg time="2026-02-22T23:30:42.981976" level="INFO">Clicking element 'xpath=//button[contains(@class,'cl-formButtonPrimary')]'.</msg>
+<arg>${EMAIL_CONT}</arg>
+<doc>Click the element identified by ``locator``.</doc>
+<status status="PASS" start="2026-02-22T23:30:42.981976" elapsed="0.667018"/>
+</kw>
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<msg time="2026-02-22T23:30:43.963864" level="INFO">Suppressing StaleElementReferenceException from Selenium.</msg>
+<arg>${PASS_FIELD}</arg>
+<arg>20s</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2026-02-22T23:30:43.648994" elapsed="1.127162"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2026-02-22T23:30:44.777126" level="INFO">Typing text 'morenttest@12345' into text field 'id=password-field'.</msg>
+<arg>${PASS_FIELD}</arg>
+<arg>${pass}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2026-02-22T23:30:44.776156" elapsed="1.001223"/>
+</kw>
+<kw name="Click Element" owner="SeleniumLibrary">
+<msg time="2026-02-22T23:30:45.777379" level="INFO">Clicking element 'xpath=//button[contains(@class,'cl-formButtonPrimary')]'.</msg>
+<arg>${PASS_CONT}</arg>
+<doc>Click the element identified by ``locator``.</doc>
+<status status="PASS" start="2026-02-22T23:30:45.777379" elapsed="0.657898"/>
+</kw>
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>${OTP_FIELD}</arg>
+<arg>20s</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2026-02-22T23:30:46.435277" elapsed="1.123047"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2026-02-22T23:30:47.558324" level="INFO">Typing text '424242' into text field 'xpath=//input[@inputmode='numeric']'.</msg>
+<arg>${OTP_FIELD}</arg>
+<arg>${otp}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2026-02-22T23:30:47.558324" elapsed="0.975875"/>
+</kw>
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>${HEADER_AVATAR}</arg>
+<arg>30s</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2026-02-22T23:30:48.534199" elapsed="3.307098"/>
+</kw>
+<arg>doe+clerk_test@example.com</arg>
+<arg>morenttest@12345</arg>
+<arg>424242</arg>
+<status status="PASS" start="2026-02-22T23:30:36.542260" elapsed="15.299037"/>
+</kw>
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>${HEADER_AVATAR}</arg>
+<arg>30s</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2026-02-22T23:30:51.841297" elapsed="0.613104"/>
+</kw>
+<kw name="Click Element" owner="SeleniumLibrary">
+<msg time="2026-02-22T23:30:52.454401" level="INFO">Clicking element 'xpath=//button[contains(@class,'cl-userButtonTrigger')]'.</msg>
+<arg>${HEADER_AVATAR}</arg>
+<doc>Click the element identified by ``locator``.</doc>
+<status status="PASS" start="2026-02-22T23:30:52.454401" elapsed="0.683571"/>
+</kw>
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>${MANAGE_ACC}</arg>
+<arg>20s</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2026-02-22T23:30:53.138460" elapsed="0.615638"/>
+</kw>
+<kw name="Click Element" owner="SeleniumLibrary">
+<msg time="2026-02-22T23:30:53.754098" level="INFO">Clicking element 'xpath=//button[contains(.,'Manage account')]'.</msg>
+<arg>${MANAGE_ACC}</arg>
+<doc>Click the element identified by ``locator``.</doc>
+<status status="PASS" start="2026-02-22T23:30:53.754098" elapsed="0.661126"/>
+</kw>
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>${UPDATE_PROFILE_BTN}</arg>
+<arg>20s</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2026-02-22T23:30:54.415224" elapsed="0.615128"/>
+</kw>
+<kw name="Click Element" owner="SeleniumLibrary">
+<msg time="2026-02-22T23:30:55.030352" level="INFO">Clicking element 'xpath=//button[contains(text(),'Update profile')]'.</msg>
+<arg>${UPDATE_PROFILE_BTN}</arg>
+<doc>Click the element identified by ``locator``.</doc>
+<status status="PASS" start="2026-02-22T23:30:55.030352" elapsed="0.695887"/>
+</kw>
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>${UPLOAD_BTN}</arg>
+<arg>20s</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2026-02-22T23:30:55.726239" elapsed="0.617522"/>
+</kw>
+<kw name="Element Should Be Visible" owner="SeleniumLibrary">
+<msg time="2026-02-22T23:30:56.957061" level="INFO">Element 'xpath=//button[contains(text(),'Upload')]' is displayed.</msg>
+<arg>${UPLOAD_BTN}</arg>
+<doc>Verifies that the element identified by ``locator`` is visible.</doc>
+<status status="PASS" start="2026-02-22T23:30:56.343761" elapsed="0.613300"/>
+</kw>
+<kw name="Element Should Be Visible" owner="SeleniumLibrary">
+<msg time="2026-02-22T23:30:57.572706" level="INFO">Element 'xpath=//button[contains(text(),'Remove')]' is displayed.</msg>
+<arg>${REMOVE_BTN}</arg>
+<doc>Verifies that the element identified by ``locator`` is visible.</doc>
+<status status="PASS" start="2026-02-22T23:30:56.957575" elapsed="0.615131"/>
+</kw>
+<kw name="Log To Console" owner="BuiltIn">
+<arg>SUCCESS: Upload and Remove buttons verified.</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" start="2026-02-22T23:30:57.572706" elapsed="0.000000"/>
+</kw>
+<kw name="Execute Javascript" owner="SeleniumLibrary">
+<msg time="2026-02-22T23:30:57.572706" level="INFO">Executing JavaScript:
+var el = document.querySelector("input[type='file']");if (el) { el.style.display = 'block'; el.style.visibility='visible'; el.style.opacity='1'; }
+Without any arguments.</msg>
+<arg>var el = document.querySelector("input[type='file']");</arg>
+<arg>if (el) { el.style.display = 'block'; el.style.visibility='visible'; el.style.opacity='1'; }</arg>
+<doc>Executes the given JavaScript code with possible arguments.</doc>
+<status status="PASS" start="2026-02-22T23:30:57.572706" elapsed="0.310661"/>
+</kw>
+<kw name="Choose File" owner="SeleniumLibrary">
+<msg time="2026-02-22T23:30:57.883367" level="INFO">Sending C:\Users\ASUS\Downloads\test.jpeg to browser.</msg>
+<arg>${FILE_INPUT}</arg>
+<arg>${IMAGE_PATH}</arg>
+<doc>Inputs the ``file_path`` into the file input field ``locator``.</doc>
+<status status="PASS" start="2026-02-22T23:30:57.883367" elapsed="0.640475"/>
+</kw>
+<kw name="Execute Javascript" owner="SeleniumLibrary">
+<msg time="2026-02-22T23:30:58.523842" level="INFO">Executing JavaScript:
+var input = document.querySelector("input[type='file']");if (input) { input.dispatchEvent(new Event('change', { bubbles: true })); }
+Without any arguments.</msg>
+<arg>var input = document.querySelector("input[type='file']");</arg>
+<arg>if (input) { input.dispatchEvent(new Event('change', { bubbles: true })); }</arg>
+<doc>Executes the given JavaScript code with possible arguments.</doc>
+<status status="PASS" start="2026-02-22T23:30:58.523842" elapsed="0.314113"/>
+</kw>
+<kw name="Log To Console" owner="BuiltIn">
+<arg>SUCCESS: File selected.</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" start="2026-02-22T23:30:58.838471" elapsed="0.000000"/>
+</kw>
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>${SAVE_BTN}</arg>
+<arg>20s</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2026-02-22T23:30:58.839556" elapsed="0.616518"/>
+</kw>
+<kw name="Click Element" owner="SeleniumLibrary">
+<msg time="2026-02-22T23:30:59.456074" level="INFO">Clicking element 'xpath=//button[contains(text(),'Save')]'.</msg>
+<msg time="2026-02-22T23:31:00.978444" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="selenium-screenshot-2.png"&gt;&lt;img src="selenium-screenshot-2.png" width="800px"&gt;&lt;/a&gt;</msg>
+<msg time="2026-02-22T23:31:00.978444" level="FAIL">StaleElementReferenceException: Message: stale element reference: stale element not found in the current frame
+  (Session info: chrome=145.0.7632.76); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#staleelementreferenceexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0x7ff7e87c4435
+	0x7ff7e87c4490
+	0x7ff7e855d49d
+	0x7ff7e8565411
+	0x7ff7e8568534
+	0x7ff7e85685ff
+	0x7ff7e85c056a
+	0x7ff7e85bdf5a
+	0x7ff7e85bade5
+	0x7ff7e85b9c97
+	0x7ff7e85ab1c6
+	0x7ff7e85e17ca
+	0x7ff7e85aaa46
+	0x7ff7e8605728
+	0x7ff7e85a8e38
+	0x7ff7e85a9d23
+	0x7ff7e8a93b30
+	0x7ff7e8a8e3b8
+	0x7ff7e8aae72a
+	0x7ff7e87e07e5
+	0x7ff7e87e978c
+	0x7ff7e87cd794
+	0x7ff7e87cd946
+	0x7ff7e87b3457
+	0x7ffe9cf4e8d7
+	0x7ffe9e1ac40c
+</msg>
+<arg>${SAVE_BTN}</arg>
+<doc>Click the element identified by ``locator``.</doc>
+<status status="FAIL" start="2026-02-22T23:30:59.456074" elapsed="1.522370">StaleElementReferenceException: Message: stale element reference: stale element not found in the current frame
+  (Session info: chrome=145.0.7632.76); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#staleelementreferenceexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0x7ff7e87c4435
+	0x7ff7e87c4490
+	0x7ff7e855d49d
+	0x7ff7e8565411
+	0x7ff7e8568534
+	0x7ff7e85685ff
+	0x7ff7e85c056a
+	0x7ff7e85bdf5a
+	0x7ff7e85bade5
+	0x7ff7e85b9c97
+	0x7ff7e85ab1c6
+	0x7ff7e85e17ca
+	0x7ff7e85aaa46
+	0x7ff7e8605728
+	0x7ff7e85a8e38
+	0x7ff7e85a9d23
+	0x7ff7e8a93b30
+	0x7ff7e8a8e3b8
+	0x7ff7e8aae72a
+	0x7ff7e87e07e5
+	0x7ff7e87e978c
+	0x7ff7e87cd794
+	0x7ff7e87cd946
+	0x7ff7e87b3457
+	0x7ffe9cf4e8d7
+	0x7ffe9e1ac40c
+</status>
+</kw>
+<kw name="Wait Until Page Contains Element" owner="SeleniumLibrary">
+<arg>${HEADER_AVATAR}</arg>
+<arg>30s</arg>
+<doc>Waits until the element ``locator`` appears on the current page.</doc>
+<status status="NOT RUN" start="2026-02-22T23:31:00.978444" elapsed="0.000000"/>
+</kw>
+<kw name="Log To Console" owner="BuiltIn">
+<arg>SUCCESS: Save triggered and page refreshed.</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="NOT RUN" start="2026-02-22T23:31:00.983656" elapsed="0.000000"/>
+</kw>
+<kw name="Wait Until Keyword Succeeds" owner="BuiltIn">
+<arg>3x</arg>
+<arg>3s</arg>
+<arg>Click Element</arg>
+<arg>${HEADER_AVATAR}</arg>
+<doc>Runs the specified keyword and retries if it fails.</doc>
+<status status="NOT RUN" start="2026-02-22T23:31:00.983656" elapsed="0.000000"/>
+</kw>
+<kw name="Log To Console" owner="BuiltIn">
+<arg>SUCCESS: Header avatar clickable after upload.</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="NOT RUN" start="2026-02-22T23:31:00.983656" elapsed="0.000000"/>
+</kw>
+<kw name="Close Browser" owner="SeleniumLibrary" type="TEARDOWN">
+<doc>Closes the current browser.</doc>
+<status status="PASS" start="2026-02-22T23:31:00.983656" elapsed="2.390680"/>
+</kw>
+<doc>Logs in, verifies profile buttons, uploads image, saves, and validates navigation.</doc>
+<status status="FAIL" start="2026-02-22T23:30:34.622349" elapsed="28.751987">StaleElementReferenceException: Message: stale element reference: stale element not found in the current frame
+  (Session info: chrome=145.0.7632.76); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#staleelementreferenceexception
+Stacktrace:
+Symbols not available. Dumping unresolved backtrace:
+	0x7ff7e87c4435
+	0x7ff7e87c4490
+	0x7ff7e855d49d
+	0x7ff7e8565411
+	0x7ff7e8568534
+	0x7ff7e85685ff
+	0x7ff7e85c056a
+	0x7ff7e85bdf5a
+	0x7ff7e85bade5
+	0x7ff7e85b9c97
+	0x7ff7e85ab1c6
+	0x7ff7e85e17ca
+	0x7ff7e85aaa46
+	0x7ff7e8605728
+	0x7ff7e85a8e38
+	0x7ff7e85a9d23
+	0x7ff7e8a93b30
+	0x7ff7e8a8e3b8
+	0x7ff7e8aae72a
+	0x7ff7e87e07e5
+	0x7ff7e87e978c
+	0x7ff7e87cd794
+	0x7ff7e87cd946
+	0x7ff7e87b3457
+	0x7ffe9cf4e8d7
+	0x7ffe9e1ac40c
+</status>
+</test>
+<doc>MoRent Profile Management: Verification, Upload, and Navigation.</doc>
+<status status="FAIL" start="2026-02-22T23:30:34.406164" elapsed="28.969337"/>
+</suite>
+<statistics>
+<total>
+<stat pass="0" fail="1" skip="0">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat name="File Upload" id="s1" pass="0" fail="1" skip="0">File Upload</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>
